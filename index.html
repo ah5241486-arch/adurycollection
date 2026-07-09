@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - Premium Three Piece</title>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -24,9 +26,9 @@
         /* Header / Navbar */
         .navbar { background: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo { font-size: 24px; font-weight: 700; color: var(--primary-color); letter-spacing: 0.5px; }
-        .cart-icon { font-size: 22px; cursor: pointer; position: relative; color: var(--dark-color); transition: 0.3s; }
+        .cart-icon { font-size: 22px; cursor: pointer; position: relative; color: var(--dark-color); transition: 0.3s; padding: 5px 10px; }
         .cart-icon:hover { color: var(--primary-color); }
-        .cart-count { position: absolute; top: -8px; right: -10px; background: #ff3333; color: #fff; font-size: 11px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .cart-count { position: absolute; top: -5px; right: -3px; background: #ff3333; color: #fff; font-size: 11px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
         /* Premium Hero Banner */
         .hero { background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(179, 0, 89, 0.4)), url('20260630_135149.jpg') no-repeat center center/cover; height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; padding: 20px; box-shadow: inset 0 0 100px rgba(0,0,0,0.5); margin-bottom: 25px; }
@@ -61,30 +63,35 @@
         
         /* Action Buttons */
         .btn-group { display: flex; flex-direction: column; gap: 10px; }
-        .btn-order { background: linear-gradient(135deg, #25d366, #20ba5a); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2); transition: 0.3s; }
-        .btn-order:hover { background: #20ba5a; transform: translateY(-2px); }
+        .btn-order { background: linear-gradient(135deg, #b30059, #e60073); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(179, 0, 89, 0.15); transition: 0.3s; }
+        .btn-order:hover { background: var(--primary-color); transform: translateY(-2px); }
 
         /* Checkout Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; backdrop-filter: blur(4px); }
-        .modal-content { background: #fff; padding: 25px; border-radius: 15px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
+        .modal-content { background: #fff; padding: 25px; border-radius: 15px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 20px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 15px; }
         .modal-header h3 { font-size: 20px; color: var(--primary-color); }
         .close-btn { font-size: 24px; cursor: pointer; color: #888; transition: 0.3s; }
         .close-btn:hover { color: #000; }
         
-        /* Quantity Controls */
-        .qty-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px dashed #ddd; }
-        .qty-label { font-weight: 600; font-size: 15px; color: #444; }
-        .qty-btn { background: var(--primary-color); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .qty-btn:active { transform: scale(0.9); }
-        .qty-val { font-size: 18px; font-weight: 700; width: 30px; text-align: center; color: #1a1a1a; }
+        /* Advanced Cart List Style */
+        .cart-list { max-height: 200px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; padding: 5px; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #f5f5f5; font-size: 14px; gap: 10px; }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-title { font-weight: 600; color: #333; flex-grow: 1; text-align: left; max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cart-item-price { color: var(--primary-color); font-weight: 700; width: 65px; text-align: right; }
+        .cart-qty-controls { display: flex; align-items: center; gap: 8px; }
+        .cart-qty-btn { background: #eee; border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .cart-qty-btn:hover { background: var(--primary-color); color: #fff; }
+        .cart-qty-val { font-weight: 700; min-width: 15px; text-align: center; }
+        .cart-delete { color: #ff3333; cursor: pointer; font-size: 16px; margin-left: 5px; }
 
         .form-group { margin-bottom: 16px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #444; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; outline: none; transition: 0.3s; }
         .form-group input:focus, .form-group select:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(179, 0, 89, 0.1); }
-        .checkout-btn { background: linear-gradient(135deg, #b30059, #e60073); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 17px; font-weight: 600; cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(179, 0, 89, 0.3); }
+        .checkout-btn { background: linear-gradient(135deg, #25d366, #20ba5a); color: #fff; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 17px; font-weight: 600; cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); }
 
         /* Trust Badges section */
         .features { display: flex; justify-content: space-around; background: #fff; padding: 20px 10px; text-align: center; margin-top: 40px; font-size: 13px; gap: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.02); }
@@ -105,10 +112,12 @@
 </head>
 <body>
 
+    <!-- Top Announcement Bar -->
     <div class="top-bar">
         <i class="fas fa-shipping-fast"></i> সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি!
     </div>
 
+    <!-- Header Navbar -->
     <div class="navbar">
         <div class="logo">Adury Collection</div>
         <div class="cart-icon" onclick="openCart()">
@@ -117,19 +126,24 @@
         </div>
     </div>
 
+    <!-- Premium Hero Banner -->
     <div class="hero">
         <h1>Adury Collection</h1>
         <p>নতুন ও এক্সক্লুসিভ থ্রি-পিস কালেকশন</p>
     </div>
 
+    <!-- Smart Search -->
     <div class="search-container">
         <input type="text" id="search" class="search-box" placeholder="আপনার পছন্দের থ্রি-পিস খুঁজুন..." onkeyup="searchProduct()">
         <i class="fas fa-search"></i>
     </div>
 
+    <!-- Section Title -->
     <div class="section-title">আমাদের কালেকশন</div>
 
+    <!-- Product Grid -->
     <div class="product-grid" id="product-list">
+        <!-- Product 1 -->
         <div class="product-card">
             <span class="badge">১৫% ছাড়</span>
             <div class="product-img-box">
@@ -144,12 +158,13 @@
                 <div class="stock-status"><i class="fas fa-circle-check"></i> স্টকে আছে</div>
                 <div class="btn-group">
                     <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-১)', 1275, '20260630_135149.jpg')">
-                        <i class="fab fa-whatsapp"></i> অর্ডার করুন
+                        <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
                     </button>
                 </div>
             </div>
         </div>
 
+        <!-- Product 2 -->
         <div class="product-card">
             <span class="badge">১০% ছাড়</span>
             <div class="product-img-box">
@@ -164,12 +179,13 @@
                 <div class="stock-status"><i class="fas fa-circle-check"></i> স্টকে আছে</div>
                 <div class="btn-group">
                     <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-২)', 1440, '20260630_135149.jpg')">
-                        <i class="fab fa-whatsapp"></i> অর্ডার করুন
+                        <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
                     </button>
                 </div>
             </div>
         </div>
 
+        <!-- Product 3 -->
         <div class="product-card">
             <span class="badge">বিশেষ অফার</span>
             <div class="product-img-box">
@@ -184,13 +200,14 @@
                 <div class="stock-status"><i class="fas fa-circle-check"></i> স্টকে আছে</div>
                 <div class="btn-group">
                     <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-৩)', 1500, '20260630_135212.jpg')">
-                        <i class="fab fa-whatsapp"></i> অর্ডার করুন
+                        <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Trust Badges Section -->
     <div class="features">
         <div class="feature-item">
             <i class="fas fa-truck-moving"></i>
@@ -206,24 +223,23 @@
         </div>
     </div>
 
+    <!-- Floating Contact Buttons -->
     <div class="floating-buttons">
         <a href="https://wa.me/8801969080416" class="float-btn float-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="tel:01969080416" class="float-btn float-call"><i class="fas fa-phone-alt"></i></a>
     </div>
 
+    <!-- Multi Product Checkout Cart Modal -->
     <div class="modal" id="cartModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-shopping-cart"></i> চেকআউট ফর্ম</h3>
+                <h3><i class="fas fa-shopping-cart"></i> আপনার শপিং কার্ট</h3>
                 <span class="close-btn" onclick="closeCart()">&times;</span>
             </div>
-            <div id="cart-items-details" style="margin-bottom: 10px; font-weight: 600; color: var(--primary-color); background: #fdf0f6; padding: 10px; border-radius: 8px; font-size: 15px; text-align: center;"></div>
             
-            <div class="qty-container">
-                <span class="qty-label"><i class="fas fa-layer-group"></i> পরিমাণ (পিস):</span>
-                <button type="button" class="qty-btn" onclick="changeQty(-1)">-</button>
-                <span class="qty-val" id="prod-qty">1</span>
-                <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+            <!-- Dynamic Cart Items List -->
+            <div class="cart-list" id="cart-list-container">
+                <!-- Items will be injected here by JS -->
             </div>
 
             <form id="orderForm" onsubmit="sendOrder(event)">
@@ -243,7 +259,7 @@
                     <label><i class="fas fa-shuttle-van"></i> ডেলিভারি এরিয়া *</label>
                     <select id="delivery" onchange="updateTotal()" required>
                         <option value="60">ঢাকার ভিতরে (৳৬০)</option>
-                        <option value="120">ঢাকার বাইরে (৳১২ো)</option>
+                        <option value="120">ঢাকার বাইরে (৳১২০)</option>
                     </select>
                 </div>
                 <h4 style="margin-top: 20px; text-align: right; font-size: 18px; color: #222;" id="total-price">সর্বমোট বিল: ৳০</h4>
@@ -252,46 +268,88 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2026 Adury Collection. All Rights Reserved.</p>
         <p style="font-size: 12px; color: #bbb; margin-top: 6px; font-weight: 300;">সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি সেবা</p>
     </footer>
 
+    <!-- JavaScript Core -->
     <script>
-        let currentProduct = "";
-        let productPrice = 0;
-        let productImage = "";
-        let quantity = 1;
+        // প্রফেশনাল গ্লোবাল কার্ট অ্যারে
+        let cart = [];
         
-        // আপনার দেওয়া আসল Web3Forms Access Key এখানে যুক্ত করা হয়েছে
         const WEB3FORMS_KEY = "0c1fcbb1-99bd-44a1-b4a9-b71bc77348fd"; 
 
         function addToCart(name, price, image) {
-            currentProduct = name;
-            productPrice = price;
-            productImage = image;
-            quantity = 1; // রি-সেট
-            document.getElementById('prod-qty').innerText = quantity;
-            document.getElementById('cart-count').innerText = quantity;
+            // কার্টে পণ্যটি অলরেডি আছে কিনা চেক করা
+            let existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ name: name, price: price, image: image, qty: 1 });
+            }
+            updateCartUI();
             openCart();
         }
 
-        function changeQty(amount) {
-            quantity += amount;
-            if (quantity < 1) quantity = 1; // সর্বনিম্ন ১ পিস
-            document.getElementById('prod-qty').innerText = quantity;
-            document.getElementById('cart-count').innerText = quantity;
+        function changeCartQty(name, amount) {
+            let item = cart.find(item => item.name === name);
+            if (item) {
+                item.qty += amount;
+                if (item.qty < 1) item.qty = 1;
+            }
+            updateCartUI();
+        }
+
+        function removeCartItem(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
+            if (cart.length === 0) {
+                closeCart();
+            }
+        }
+
+        function updateCartUI() {
+            // কার্ট ব্যাজ কাউন্ট আপডেট
+            let totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').innerText = totalItems;
+
+            // পপআপের ভেতরের লিস্ট তৈরি
+            let container = document.getElementById('cart-list-container');
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = `<div style="padding:20px; color:#888; text-align:center;">কার্ট খালি আছে!</div>`;
+                return;
+            }
+
+            cart.forEach(item => {
+                let itemHTML = `
+                    <div class="cart-item">
+                        <div class="cart-item-title" title="${item.name}">${item.name}</div>
+                        <div class="cart-qty-controls">
+                            <button type="button" class="cart-qty-btn" onclick="changeCartQty('${item.name}', -1)">-</button>
+                            <span class="cart-qty-val">${item.qty}</span>
+                            <button type="button" class="cart-qty-btn" onclick="changeCartQty('${item.name}', 1)">+</button>
+                        </div>
+                        <div class="cart-item-price">৳${item.price * item.qty}</div>
+                        <i class="fas fa-trash-alt cart-delete" onclick="removeCartItem('${item.name}')"></i>
+                    </div>
+                `;
+                container.innerHTML += itemHTML;
+            });
+
             updateTotal();
         }
 
         function openCart() {
-            if(!currentProduct) {
-                alert("দুঃখিত, প্রথমে একটি প্রোডাক্ট সিলেক্ট করুন!");
+            if(cart.length === 0) {
+                alert("আপনার শপিং কার্টটি বর্তমানে খালি আছে। অনুগ্রহ করে পণ্য যোগ করুন!");
                 return;
             }
             document.getElementById('cartModal').style.display = 'flex';
-            document.getElementById('cart-items-details').innerText = "পণ্য: " + currentProduct + " (৳" + productPrice + ")";
-            updateTotal();
+            updateCartUI();
         }
 
         function closeCart() {
@@ -299,9 +357,9 @@
         }
 
         function updateTotal() {
-            let deliveryCharge = parseInt(document.getElementById('delivery').value);
-            let totalProductPrice = productPrice * quantity;
-            let total = totalProductPrice + deliveryCharge;
+            let deliveryCharge = cart.length > 0 ? parseInt(document.getElementById('delivery').value) : 0;
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let total = subtotal + deliveryCharge;
             document.getElementById('total-price').innerText = "সর্বমোট বিল: ৳" + total;
         }
 
@@ -320,50 +378,67 @@
 
         function sendOrder(event) {
             event.preventDefault();
+            if (cart.length === 0) return;
+
             let name = document.getElementById('name').value;
             let phone = document.getElementById('phone').value;
             let address = document.getElementById('address').value;
             let deliveryCost = document.getElementById('delivery').value;
-            let deliveryType = deliveryCost == "60" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে";
-            let totalProductPrice = productPrice * quantity;
-            let totalAmount = totalProductPrice + parseInt(deliveryCost);
+            let deliveryType = deliveryCost == "60" ? "Inside Dhaka" : "Outside Dhaka";
+            
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let totalAmount = subtotal + parseInt(deliveryCost);
             
             let currentURL = window.location.href;
-            let absoluteImgURL = currentURL.substring(0, currentURL.lastIndexOf('/')) + '/' + productImage;
+            let currentBaseURL = currentURL.substring(0, currentURL.lastIndexOf('/')) + '/';
 
-            // ১. জিমেইলে অটোমেটিক ডাটা পাঠানোর ব্যবস্থা (Web3Forms API)
+            // জিমেইল এবং হোয়াটসঅ্যাপের জন্য প্রোডাক্টের টেক্সট সাজানো
+            let emailProductsText = "";
+            let whatsappProductsText = "";
+
+            cart.forEach((item, index) => {
+                let imgLink = currentBaseURL + item.image;
+                
+                // জিমেইল ডাটা (ইংরেজি লেবেল এনকোডিং ফিক্স সহ)
+                emailProductsText += `${index + 1}. ${item.name} -> Quantity: ${item.qty} Pcs | Price: BDT ${item.price * item.qty}\n`;
+                emailProductsText += `   Image: ${imgLink}\n\n`;
+
+                // হোয়াটসঅ্যাপ ডাটা (ঝকঝকে বাংলা)
+                whatsappProductsText += `📦 *${index + 1}. ${item.name}*%0A`;
+                whatsappProductsText += `   🔢 পরিমাণ: ${item.qty} পিস%0A`;
+                whatsappProductsText += `   💵 দাম: ৳${item.price * item.qty}%0A`;
+                whatsappProductsText += `   📸 লিংক: ${imgLink}%0A%0A`;
+            });
+
+            // ১. জিমেইলে ডাটা সাবমিট (Web3Forms API)
             let formData = new FormData();
             formData.append("access_key", WEB3FORMS_KEY);
-            formData.append("subject", "🛍️ নতুন অর্ডার এসেছে - " + currentProduct + " (" + quantity + " পিস)");
-            formData.append("কাস্টমারের নাম", name);
-            formData.append("মোবাইল নম্বর", phone);
-            formData.append("ঠিকানা", address);
-            formData.append("প্রোডাক্টের নাম", currentProduct);
-            formData.append("পরিমাণ", quantity + " পিস");
-            formData.append("পণ্যের মোট দাম", "৳" + totalProductPrice);
-            formData.append("ডেলিভারি চার্জ", "৳" + deliveryCost + " (" + deliveryType + ")");
-            formData.append("সর্বমোট সর্বমোট বিল", "৳" + totalAmount);
-            formData.append("ছবির লিংক", absoluteImgURL);
+            formData.append("subject", "🛒 New Multi-Product Order from " + name);
+            formData.append("Customer Name", name);
+            formData.append("Mobile Number", phone);
+            formData.append("Delivery Address", address);
+            formData.append("Order Items Details", "\n" + emailProductsText);
+            formData.append("Items Subtotal", "BDT " + subtotal);
+            formData.append("Delivery Charge", "BDT " + deliveryCost + " (" + deliveryType + ")");
+            formData.append("Total Payable Bill", "BDT " + totalAmount);
 
             fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 body: formData
             });
 
-            // ২. হোয়াটসঅ্যাপে মেসেজ পাঠানো
-            let message = `*নতুন অর্ডার - Adury Collection*%0A`;
+            // ২. হোয়াটসঅ্যাপে মেসেজ ফরম্যাট
+            let message = `*🛒 নতুন মাল্টি-অর্ডার - Adury Collection*%0A`;
             message += `========================%0A`;
-            message += `*🛍️ প্রোডাক্ট:* ${currentProduct}%0A`;
-            message += `*🔢 পরিমাণ:* ${quantity} পিস%0A`;
-            message += `*💵 পণ্যের দাম:* ৳${totalProductPrice}%0A`;
-            message += `*🚚 ডেলিভারি চার্জ:* ৳${deliveryCost} (${deliveryType})%0A`;
-            message += `*💰 সর্বমোট বিল:* ৳${totalAmount}%0A`;
+            message += whatsappProductsText;
+            message += `========================%0A`;
+            message += `*💵 প্রোডাক্ট সাবটোটাল:* ৳${subtotal}%0A`;
+            message += `*🚚 ডেলিভারি চার্জ:* ৳${deliveryCost} (${deliveryCost == "60" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে"})%0A`;
+            message += `*💰 সর্বমোট সর্বমোট বিল:* ৳${totalAmount}%0A`;
             message += `========================%0A`;
             message += `*👤 কাস্টমারের নাম:* ${name}%0A`;
             message += `*📞 মোবাইল নম্বর:* ${phone}%0A`;
             message += `*📍 ডেলিভারি ঠিকানা:* ${address}%0A`;
-            message += `========================%0A`;
-            message += `*📸 পণ্যের ছবি দেখতে লিংকে ক্লিক করুন:*%0A${absoluteImgURL}%0A`;
             message += `========================%0A`;
             message += `*💳 পেমেন্ট মেথড:* Cash on Delivery`;
 
