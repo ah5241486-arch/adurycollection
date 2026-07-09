@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - Premium Three Piece</title>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -74,6 +72,14 @@
         .modal-header h3 { font-size: 20px; color: var(--primary-color); }
         .close-btn { font-size: 24px; cursor: pointer; color: #888; transition: 0.3s; }
         .close-btn:hover { color: #000; }
+        
+        /* Quantity Controls */
+        .qty-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px dashed #ddd; }
+        .qty-label { font-weight: 600; font-size: 15px; color: #444; }
+        .qty-btn { background: var(--primary-color); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .qty-btn:active { transform: scale(0.9); }
+        .qty-val { font-size: 18px; font-weight: 700; width: 30px; text-align: center; color: #1a1a1a; }
+
         .form-group { margin-bottom: 16px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #444; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; outline: none; transition: 0.3s; }
@@ -99,12 +105,10 @@
 </head>
 <body>
 
-    <!-- Top Announcement Bar -->
     <div class="top-bar">
         <i class="fas fa-shipping-fast"></i> সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি!
     </div>
 
-    <!-- Header Navbar -->
     <div class="navbar">
         <div class="logo">Adury Collection</div>
         <div class="cart-icon" onclick="openCart()">
@@ -113,24 +117,19 @@
         </div>
     </div>
 
-    <!-- Premium Hero Banner -->
     <div class="hero">
         <h1>Adury Collection</h1>
         <p>নতুন ও এক্সক্লুসিভ থ্রি-পিস কালেকশন</p>
     </div>
 
-    <!-- Smart Search -->
     <div class="search-container">
         <input type="text" id="search" class="search-box" placeholder="আপনার পছন্দের থ্রি-পিস খুঁজুন..." onkeyup="searchProduct()">
         <i class="fas fa-search"></i>
     </div>
 
-    <!-- Section Title -->
     <div class="section-title">আমাদের কালেকশন</div>
 
-    <!-- Product Grid -->
     <div class="product-grid" id="product-list">
-        <!-- Product 1 -->
         <div class="product-card">
             <span class="badge">১৫% ছাড়</span>
             <div class="product-img-box">
@@ -151,7 +150,6 @@
             </div>
         </div>
 
-        <!-- Product 2 -->
         <div class="product-card">
             <span class="badge">১০% ছাড়</span>
             <div class="product-img-box">
@@ -172,7 +170,6 @@
             </div>
         </div>
 
-        <!-- Product 3 -->
         <div class="product-card">
             <span class="badge">বিশেষ অফার</span>
             <div class="product-img-box">
@@ -194,7 +191,6 @@
         </div>
     </div>
 
-    <!-- Trust Badges Section -->
     <div class="features">
         <div class="feature-item">
             <i class="fas fa-truck-moving"></i>
@@ -210,21 +206,26 @@
         </div>
     </div>
 
-    <!-- Floating Contact Buttons -->
     <div class="floating-buttons">
         <a href="https://wa.me/8801969080416" class="float-btn float-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="tel:01969080416" class="float-btn float-call"><i class="fas fa-phone-alt"></i></a>
     </div>
 
-    <!-- Premium Checkout Modal -->
     <div class="modal" id="cartModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fas fa-shopping-cart"></i> চেকআউট ফর্ম</h3>
                 <span class="close-btn" onclick="closeCart()">&times;</span>
             </div>
-            <div id="cart-items-details" style="margin-bottom: 18px; font-weight: 600; color: var(--primary-color); background: #fdf0f6; padding: 10px; border-radius: 8px; font-size: 15px; text-align: center;"></div>
+            <div id="cart-items-details" style="margin-bottom: 10px; font-weight: 600; color: var(--primary-color); background: #fdf0f6; padding: 10px; border-radius: 8px; font-size: 15px; text-align: center;"></div>
             
+            <div class="qty-container">
+                <span class="qty-label"><i class="fas fa-layer-group"></i> পরিমাণ (পিস):</span>
+                <button type="button" class="qty-btn" onclick="changeQty(-1)">-</button>
+                <span class="qty-val" id="prod-qty">1</span>
+                <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+
             <form id="orderForm" onsubmit="sendOrder(event)">
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> আপনার নাম *</label>
@@ -242,7 +243,7 @@
                     <label><i class="fas fa-shuttle-van"></i> ডেলিভারি এরিয়া *</label>
                     <select id="delivery" onchange="updateTotal()" required>
                         <option value="60">ঢাকার ভিতরে (৳৬০)</option>
-                        <option value="120">ঢাকার বাইরে (৳১২০)</option>
+                        <option value="120">ঢাকার বাইরে (৳১২ো)</option>
                     </select>
                 </div>
                 <h4 style="margin-top: 20px; text-align: right; font-size: 18px; color: #222;" id="total-price">সর্বমোট বিল: ৳০</h4>
@@ -251,27 +252,36 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2026 Adury Collection. All Rights Reserved.</p>
         <p style="font-size: 12px; color: #bbb; margin-top: 6px; font-weight: 300;">সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি সেবা</p>
     </footer>
 
-    <!-- JavaScript Core -->
     <script>
         let currentProduct = "";
         let productPrice = 0;
         let productImage = "";
+        let quantity = 1;
         
-        // এখানে আপনার Web3Forms এর Access Key বসান
-        const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE"; 
+        // আপনার দেওয়া আসল Web3Forms Access Key এখানে যুক্ত করা হয়েছে
+        const WEB3FORMS_KEY = "0c1fcbb1-99bd-44a1-b4a9-b71bc77348fd"; 
 
         function addToCart(name, price, image) {
             currentProduct = name;
             productPrice = price;
             productImage = image;
-            document.getElementById('cart-count').innerText = "1";
+            quantity = 1; // রি-সেট
+            document.getElementById('prod-qty').innerText = quantity;
+            document.getElementById('cart-count').innerText = quantity;
             openCart();
+        }
+
+        function changeQty(amount) {
+            quantity += amount;
+            if (quantity < 1) quantity = 1; // সর্বনিম্ন ১ পিস
+            document.getElementById('prod-qty').innerText = quantity;
+            document.getElementById('cart-count').innerText = quantity;
+            updateTotal();
         }
 
         function openCart() {
@@ -290,7 +300,8 @@
 
         function updateTotal() {
             let deliveryCharge = parseInt(document.getElementById('delivery').value);
-            let total = productPrice + deliveryCharge;
+            let totalProductPrice = productPrice * quantity;
+            let total = totalProductPrice + deliveryCharge;
             document.getElementById('total-price').innerText = "সর্বমোট বিল: ৳" + total;
         }
 
@@ -314,7 +325,8 @@
             let address = document.getElementById('address').value;
             let deliveryCost = document.getElementById('delivery').value;
             let deliveryType = deliveryCost == "60" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে";
-            let totalAmount = productPrice + parseInt(deliveryCost);
+            let totalProductPrice = productPrice * quantity;
+            let totalAmount = totalProductPrice + parseInt(deliveryCost);
             
             let currentURL = window.location.href;
             let absoluteImgURL = currentURL.substring(0, currentURL.lastIndexOf('/')) + '/' + productImage;
@@ -322,12 +334,15 @@
             // ১. জিমেইলে অটোমেটিক ডাটা পাঠানোর ব্যবস্থা (Web3Forms API)
             let formData = new FormData();
             formData.append("access_key", WEB3FORMS_KEY);
-            formData.append("subject", "নতুন অর্ডার এসেছে - " + currentProduct);
+            formData.append("subject", "🛍️ নতুন অর্ডার এসেছে - " + currentProduct + " (" + quantity + " পিস)");
             formData.append("কাস্টমারের নাম", name);
             formData.append("মোবাইল নম্বর", phone);
             formData.append("ঠিকানা", address);
-            formData.append("প্রোডাক্ট", currentProduct);
-            formData.append("সর্বমোট বিল", "৳" + totalAmount);
+            formData.append("প্রোডাক্টের নাম", currentProduct);
+            formData.append("পরিমাণ", quantity + " পিস");
+            formData.append("পণ্যের মোট দাম", "৳" + totalProductPrice);
+            formData.append("ডেলিভারি চার্জ", "৳" + deliveryCost + " (" + deliveryType + ")");
+            formData.append("সর্বমোট সর্বমোট বিল", "৳" + totalAmount);
             formData.append("ছবির লিংক", absoluteImgURL);
 
             fetch("https://api.web3forms.com/submit", {
@@ -339,7 +354,8 @@
             let message = `*নতুন অর্ডার - Adury Collection*%0A`;
             message += `========================%0A`;
             message += `*🛍️ প্রোডাক্ট:* ${currentProduct}%0A`;
-            message += `*💵 মূল্য:* ৳${productPrice}%0A`;
+            message += `*🔢 পরিমাণ:* ${quantity} পিস%0A`;
+            message += `*💵 পণ্যের দাম:* ৳${totalProductPrice}%0A`;
             message += `*🚚 ডেলিভারি চার্জ:* ৳${deliveryCost} (${deliveryType})%0A`;
             message += `*💰 সর্বমোট বিল:* ৳${totalAmount}%0A`;
             message += `========================%0A`;
