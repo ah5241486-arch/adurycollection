@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - Premium Three Piece</title>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -61,10 +59,28 @@
         .new-price { color: var(--primary-color); font-size: 22px; font-weight: 700; }
         .stock-status { font-size: 14px; color: #2e7d32; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 5px; }
         
-        /* Action Buttons */
-        .btn-group { display: flex; flex-direction: column; gap: 10px; }
+        /* Inline Controls (Wrapper) */
+        .inline-controls-wrapper { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+        /* Inline Product Quantity Controls */
+        .inline-qty-container { display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 5px; width: 100%; }
+        .inline-qty-btn { background: var(--primary-color); color: #fff; border: none; width: 34px; height: 34px; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .inline-qty-val { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+
+        /* Laflafi / Bouncing Animation for Order Now Button */
+        @keyframes laflafi {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
+        }
+
+        /* Order Now Button Style inside Card */
+        .btn-order-now-inline { background: linear-gradient(135deg, #25d366, #20ba5a); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); animation: laflafi 1.4s infinite ease-in-out; transition: 0.3s; }
+        .btn-order-now-inline:hover { background: #20ba5a; }
+
+        /* Action Buttons Initial */
+        .btn-group { display: flex; width: 100%; min-height: 46px; }
         .btn-order { background: linear-gradient(135deg, #b30059, #e60073); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(179, 0, 89, 0.15); transition: 0.3s; }
-        .btn-order:hover { background: var(--primary-color); transform: translateY(-2px); }
+        .btn-order:hover { background: var(--primary-color); }
 
         /* Checkout Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 15px; backdrop-filter: blur(4px); }
@@ -76,7 +92,7 @@
         .close-btn:hover { color: #000; }
         
         /* Advanced Cart List Style */
-        .cart-list { max-height: 200px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; padding: 5px; }
+        .cart-list { max-height: 180px; overflow-y: auto; margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; padding: 5px; }
         .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #f5f5f5; font-size: 14px; gap: 10px; }
         .cart-item:last-child { border-bottom: none; }
         .cart-item-title { font-weight: 600; color: #333; flex-grow: 1; text-align: left; max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -112,12 +128,10 @@
 </head>
 <body>
 
-    <!-- Top Announcement Bar -->
     <div class="top-bar">
         <i class="fas fa-shipping-fast"></i> সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি!
     </div>
 
-    <!-- Header Navbar -->
     <div class="navbar">
         <div class="logo">Adury Collection</div>
         <div class="cart-icon" onclick="openCart()">
@@ -126,25 +140,20 @@
         </div>
     </div>
 
-    <!-- Premium Hero Banner -->
     <div class="hero">
         <h1>Adury Collection</h1>
         <p>নতুন ও এক্সক্লুসিভ থ্রি-পিস কালেকশন</p>
     </div>
 
-    <!-- Smart Search -->
     <div class="search-container">
         <input type="text" id="search" class="search-box" placeholder="আপনার পছন্দের থ্রি-পিস খুঁজুন..." onkeyup="searchProduct()">
         <i class="fas fa-search"></i>
     </div>
 
-    <!-- Section Title -->
     <div class="section-title">আমাদের কালেকশন</div>
 
-    <!-- Product Grid -->
     <div class="product-grid" id="product-list">
-        <!-- Product 1 -->
-        <div class="product-card">
+        <div class="product-card" id="prod-card-p1">
             <span class="badge">১৫% ছাড়</span>
             <div class="product-img-box">
                 <img src="20260630_135149.jpg" class="product-img" alt="ডিজিটাল প্রিন্ট থ্রি-পিস ১">
@@ -156,16 +165,15 @@
                     <span class="new-price">৳১,২৭৫</span>
                 </div>
                 <div class="stock-status"><i class="fas fa-circle-check"></i> স্টকে আছে</div>
-                <div class="btn-group">
-                    <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-১)', 1275, '20260630_135149.jpg')">
+                <div class="btn-group" id="btn-container-p1">
+                    <button class="btn-order" onclick="addToCart('p1', 'ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-১)', 1275, '20260630_135149.jpg')">
                         <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Product 2 -->
-        <div class="product-card">
+        <div class="product-card" id="prod-card-p2">
             <span class="badge">১০% ছাড়</span>
             <div class="product-img-box">
                 <img src="20260630_135149.jpg" class="product-img" alt="ডিজিটাল প্রিন্ট থ্রি-পিস ২">
@@ -177,16 +185,15 @@
                     <span class="new-price">৳১,৪৪০</span>
                 </div>
                 <div class="stock-status"><i class="fas fa-circle-check"></i> স্টকে আছে</div>
-                <div class="btn-group">
-                    <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-২)', 1440, '20260630_135149.jpg')">
+                <div class="btn-group" id="btn-container-p2">
+                    <button class="btn-order" onclick="addToCart('p2', 'ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিजাইন-২)', 1440, '20260630_135149.jpg')">
                         <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Product 3 -->
-        <div class="product-card">
+        <div class="product-card" id="prod-card-p3">
             <span class="badge">বিশেষ অফার</span>
             <div class="product-img-box">
                 <img src="20260630_135212.jpg" class="product-img" alt="ডিজিটাল প্রিন্ট থ্রি-পিস ৩">
@@ -198,8 +205,8 @@
                     <span class="new-price">৳১,৫০০</span>
                 </div>
                 <div class="stock-status"><i class="fas fa-circle-check"></i> স্টকে আছে</div>
-                <div class="btn-group">
-                    <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-৩)', 1500, '20260630_135212.jpg')">
+                <div class="btn-group" id="btn-container-p3">
+                    <button class="btn-order" onclick="addToCart('p3', 'ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-৩)', 1500, '20260630_135212.jpg')">
                         <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
                     </button>
                 </div>
@@ -207,7 +214,6 @@
         </div>
     </div>
 
-    <!-- Trust Badges Section -->
     <div class="features">
         <div class="feature-item">
             <i class="fas fa-truck-moving"></i>
@@ -223,13 +229,11 @@
         </div>
     </div>
 
-    <!-- Floating Contact Buttons -->
     <div class="floating-buttons">
         <a href="https://wa.me/8801969080416" class="float-btn float-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="tel:01969080416" class="float-btn float-call"><i class="fas fa-phone-alt"></i></a>
     </div>
 
-    <!-- Multi Product Checkout Cart Modal -->
     <div class="modal" id="cartModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -237,10 +241,8 @@
                 <span class="close-btn" onclick="closeCart()">&times;</span>
             </div>
             
-            <!-- Dynamic Cart Items List -->
             <div class="cart-list" id="cart-list-container">
-                <!-- Items will be injected here by JS -->
-            </div>
+                </div>
 
             <form id="orderForm" onsubmit="sendOrder(event)">
                 <div class="form-group">
@@ -268,54 +270,104 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2026 Adury Collection. All Rights Reserved.</p>
         <p style="font-size: 12px; color: #bbb; margin-top: 6px; font-weight: 300;">সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি সেবা</p>
     </footer>
 
-    <!-- JavaScript Core -->
-    <script>
-        // প্রফেশনাল গ্লোবাল কার্ট অ্যারে
+    <script {nonce}>
         let cart = [];
-        
         const WEB3FORMS_KEY = "0c1fcbb1-99bd-44a1-b4a9-b71bc77348fd"; 
 
-        function addToCart(name, price, image) {
-            // কার্টে পণ্যটি অলরেডি আছে কিনা চেক করা
-            let existingItem = cart.find(item => item.name === name);
-            if (existingItem) {
-                existingItem.qty += 1;
-            } else {
-                cart.push({ name: name, price: price, image: image, qty: 1 });
+        // ১. কার্টে প্রোডাক্ট যোগ করা 
+        function addToCart(id, name, price, image) {
+            let existingItem = cart.find(item => item.id === id);
+            if (!existingItem) {
+                cart.push({ id: id, name: name, price: price, image: image, qty: 1 });
             }
             updateCartUI();
-            openCart();
+            updateInlineControls(id);
         }
 
-        function changeCartQty(name, amount) {
-            let item = cart.find(item => item.name === name);
+        // ২. কার্ডের ভেতরে প্লাস-মাইনাস দিয়ে কোয়ান্টিটি চেঞ্জ করা
+        function changeInlineQty(id, amount) {
+            let item = cart.find(item => item.id === id);
+            if (item) {
+                item.qty += amount;
+                if (item.qty < 1) {
+                    cart = cart.filter(i => i.id !== id);
+                    resetInlineButton(id);
+                    updateCartUI();
+                    return;
+                }
+            }
+            updateCartUI();
+            updateInlineControls(id);
+        }
+
+        // ৩. কার্ট বাটন বদলে প্লাস-মাইনাস এবং লাফালাফি করা "এখনই অর্ডার করুন" বাটন তৈরি
+        function updateInlineControls(id) {
+            let item = cart.find(item => item.id === id);
+            let container = document.getElementById('btn-container-' + id);
+            
+            if (item) {
+                container.innerHTML = `
+                    <div class="inline-controls-wrapper">
+                        <div class="inline-qty-container">
+                            <button type="button" class="inline-qty-btn" onclick="changeInlineQty('${id}', -1)">-</button>
+                            <span class="inline-qty-val">${item.qty} পিস</span>
+                            <button type="button" class="inline-qty-btn" onclick="changeInlineQty('${id}', 1)">+</button>
+                        </div>
+                        <button type="button" class="btn-order-now-inline" onclick="openCart()">
+                            <i class="fas fa-shopping-basket"></i> এখনই অর্ডার করুন
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // ৪. কোয়ান্টিটি ০ হয়ে গেলে আগের বাটন ফিরিয়ে আনা
+        function resetInlineButton(id) {
+            let container = document.getElementById('btn-container-' + id);
+            container.innerHTML = `
+                <button class="btn-order" onclick="resetAndAdd('${id}')">
+                    <i class="fas fa-cart-plus"></i> কার্টে যোগ করুন
+                </button>
+            `;
+        }
+
+        function resetAndAdd(id) {
+            if(id === 'p1') addToCart('p1', 'ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-১)', 1275, '20260630_135149.jpg');
+            if(id === 'p2') addToCart('p2', 'ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-২)', 1440, '20260630_135149.jpg');
+            if(id === 'p3') addToCart('p3', 'ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-৩)', 1500, '20260630_135212.jpg');
+        }
+
+        // পপআপের ভেতরে কোয়ান্টিটি চেঞ্জ হলে কার্ডের সাথে সিঙ্ক করা
+        function changeCartQty(id, amount) {
+            let item = cart.find(item => item.id === id);
             if (item) {
                 item.qty += amount;
                 if (item.qty < 1) item.qty = 1;
             }
             updateCartUI();
+            updateInlineControls(id);
         }
 
-        function removeCartItem(name) {
-            cart = cart.filter(item => item.name !== name);
+        // পপআপ থেকে ডিলিট করলে রিসেট করা
+        function removeCartItem(id) {
+            cart = cart.filter(item => item.id !== id);
             updateCartUI();
+            resetInlineButton(id);
             if (cart.length === 0) {
                 closeCart();
             }
         }
 
+        // সম্পূর্ণ শপিং কার্টের UI হ্যান্ডেল করা
         function updateCartUI() {
-            // কার্ট ব্যাজ কাউন্ট আপডেট
             let totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cart-count').innerText = totalItems;
 
-            // পপআপের ভেতরের লিস্ট তৈরি
             let container = document.getElementById('cart-list-container');
             container.innerHTML = "";
 
@@ -329,12 +381,12 @@
                     <div class="cart-item">
                         <div class="cart-item-title" title="${item.name}">${item.name}</div>
                         <div class="cart-qty-controls">
-                            <button type="button" class="cart-qty-btn" onclick="changeCartQty('${item.name}', -1)">-</button>
+                            <button type="button" class="cart-qty-btn" onclick="changeCartQty('${item.id}', -1)">-</button>
                             <span class="cart-qty-val">${item.qty}</span>
-                            <button type="button" class="cart-qty-btn" onclick="changeCartQty('${item.name}', 1)">+</button>
+                            <button type="button" class="cart-qty-btn" onclick="changeCartQty('${item.id}', 1)">+</button>
                         </div>
                         <div class="cart-item-price">৳${item.price * item.qty}</div>
-                        <i class="fas fa-trash-alt cart-delete" onclick="removeCartItem('${item.name}')"></i>
+                        <i class="fas fa-trash-alt cart-delete" onclick="removeCartItem('${item.id}')"></i>
                     </div>
                 `;
                 container.innerHTML += itemHTML;
@@ -345,7 +397,7 @@
 
         function openCart() {
             if(cart.length === 0) {
-                alert("আপনার শপিং কার্টটি বর্তমানে খালি আছে। অনুগ্রহ করে পণ্য যোগ করুন!");
+                alert("আপনার শপিং কার্টটি বর্তমানে খালি আছে। অনুগ্রহ করে প্রথমে পণ্য যোগ করুন!");
                 return;
             }
             document.getElementById('cartModal').style.display = 'flex';
@@ -392,25 +444,21 @@
             let currentURL = window.location.href;
             let currentBaseURL = currentURL.substring(0, currentURL.lastIndexOf('/')) + '/';
 
-            // জিমেইল এবং হোয়াটসঅ্যাপের জন্য প্রোডাক্টের টেক্সট সাজানো
             let emailProductsText = "";
             let whatsappProductsText = "";
 
             cart.forEach((item, index) => {
                 let imgLink = currentBaseURL + item.image;
-                
-                // জিমেইল ডাটা (ইংরেজি লেবেল এনকোডিং ফিক্স সহ)
                 emailProductsText += `${index + 1}. ${item.name} -> Quantity: ${item.qty} Pcs | Price: BDT ${item.price * item.qty}\n`;
                 emailProductsText += `   Image: ${imgLink}\n\n`;
 
-                // হোয়াটসঅ্যাপ ডাটা (ঝকঝকে বাংলা)
                 whatsappProductsText += `📦 *${index + 1}. ${item.name}*%0A`;
                 whatsappProductsText += `   🔢 পরিমাণ: ${item.qty} পিস%0A`;
                 whatsappProductsText += `   💵 দাম: ৳${item.price * item.qty}%0A`;
                 whatsappProductsText += `   📸 লিংক: ${imgLink}%0A%0A`;
             });
 
-            // ১. জিমেইলে ডাটা সাবমিট (Web3Forms API)
+            // ১. জিমেইলে ডাটা সাবমিট
             let formData = new FormData();
             formData.append("access_key", WEB3FORMS_KEY);
             formData.append("subject", "🛒 New Multi-Product Order from " + name);
@@ -434,7 +482,7 @@
             message += `========================%0A`;
             message += `*💵 প্রোডাক্ট সাবটোটাল:* ৳${subtotal}%0A`;
             message += `*🚚 ডেলিভারি চার্জ:* ৳${deliveryCost} (${deliveryCost == "60" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে"})%0A`;
-            message += `*💰 সর্বমোট সর্বমোট বিল:* ৳${totalAmount}%0A`;
+            message += `*💰 সর্বমোট বিল:* ৳${totalAmount}%0A`;
             message += `========================%0A`;
             message += `*👤 কাস্টমারের নাম:* ${name}%0A`;
             message += `*📞 মোবাইল নম্বর:* ${phone}%0A`;
