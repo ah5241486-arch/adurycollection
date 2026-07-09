@@ -1,3 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: ah5241486-arch/adurycollection
   branch: main
+  base_url: https://adurycollection.vercel.app
+  auth_endpoint: https://api.github.com/
