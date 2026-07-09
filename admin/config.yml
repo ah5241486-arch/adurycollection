@@ -1,20 +1,4 @@
 backend:
-  name: github
-  repo: ah5241486-arch/adurycollection
+  name: git-gateway
   branch: main
-
-media_folder: "assets/images"
-public_folder: "assets/images"
-
-collections:
-  - name: "products"
-    label: "থ্রি-পিস প্রোডাক্টস কালেকশন"
-    folder: "data/products"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "প্রোডাক্ট আইডি (যেমন: dp2)", name: "id", widget: "string" }
-      - { label: "জামা বা প্রোডাক্টের নাম", name: "title", widget: "string" }
-      - { label: "ক্যাটাগরি", name: "category", widget: "select", options: ["কাশ্মীরি", "প্যাটেল", "জমজম", "মার্шал", "বিন দাউদ", "আরি সিকুয়েন্স", "জয়পুরী", "ফাইন কটন", "ডিজিটাল প্রিন্ট"] }
-      - { label: "পাইকারি মূল্য (টাকা)", name: "price", widget: "number", value_type: "int" }
-      - { label: "ড্রেসের ছবি আপলোড করুন", name: "image", widget: "image" }
+  proxy_url: http://localhost:8081
