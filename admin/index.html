@@ -9,38 +9,47 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
       window.NETLIFY_IDENTITY_VERSION = "1";
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
+      
+      // লাল ইররটি দূর করার জন্য এখানে আপনার আসল Netlify সাইটের লিংকটি বসাতে হবে
+      // (যেমন: https://your-site-name.netlify.app)
+      document.addEventListener("DOMContentLoaded", function() {
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.init({
+            APIUrl: "https://adurycollection.netlify.app/.netlify/identity" 
+          });
+        }
+      });
     </script>
 
     <!-- Decap CMS Core Script -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
-<body style="background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Helvetica, Arial, sans-serif;">
+<body style="background-color: #ffffff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Google Sans', Roboto, Arial, sans-serif;">
 
-    <!-- ফেসবুক স্টাইল লগইন কার্ড -->
-    <div style="width: 100%; max-width: 360px; background: white; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center; box-sizing: border-box;">
+    <!-- গুগল স্টাইল প্রিমিয়াম লগইন বক্স -->
+    <div style="width: 100%; max-width: 450px; min-height: 400px; border: 1px solid #dadce0; padding: 40px; border-radius: 8px; text-align: center; box-sizing: border-box;">
         
-        <!-- লোগো/টাইটেল -->
-        <h2 style="color: #1877f2; margin: 0 0 8px 0; font-size: 28px; font-weight: bold; letter-spacing: -0.5px;">Adury Collection</h2>
-        <p style="color: #606770; margin: 0 0 24px 0; font-size: 15px;">অ্যাডমিন প্যানেলে লগইন করুন</p>
+        <!-- গুগলের মতো রঙিন লোগো টেক্সট -->
+        <h1 style="font-size: 24px; font-weight: 500; margin: 0 0 10px 0; color: #202124;">
+            <span style="color: #4285F4;">A</span><span style="color: #EA4335;">d</span><span style="color: #FBBC05;">u</span><span style="color: #4285F4;">r</span><span style="color: #34A853;">y</span> 
+            <span style="color: #202124; font-weight: 400;">Collection</span>
+        </h1>
         
-        <!-- ফেসবুক স্টাইল বড় বাটন -->
-        <div data-netlify-identity-menu style="display: block;">
-            <button data-netlify-identity-button style="width: 100%; background-color: #1877f2; color: white; border: none; padding: 14px; font-size: 17px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background-color 0.2s ease-in-out;">
+        <h2 style="font-size: 24px; font-weight: 400; color: #202124; margin: 0 0 8px 0;">Sign in</h2>
+        <p style="font-size: 16px; color: #202124; margin: 0 0 30px 0;">to continue to Admin Panel</p>
+        
+        <!-- গুগলের মতো প্রিমিয়াম বাটন -->
+        <div data-netlify-identity-menu style="margin-top: 40px;">
+            <button data-netlify-identity-button style="background-color: #1a73e8; color: white; border: none; padding: 10px 24px; font-size: 14px; border-radius: 4px; cursor: pointer; font-weight: 500; letter-spacing: 0.25px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); transition: background-color 0.2s;">
                 Log In / Sign Up
             </button>
         </div>
         
-        <hr style="border: 0; border-top: 1px solid #e4e6eb; margin: 20px 0;">
-        <p style="color: #606770; font-size: 13px; margin: 0;">Adury Collection Wholesale Business</p>
+        <div style="margin-top: 80px; text-align: left;">
+            <p style="color: #5f6368; font-size: 14px; margin: 0; line-height: 1.5;">
+                নোট: যদি বাটনে চাপ দেওয়ার পর আবার লাল ইরর আসে, তাহলে আপনার সঠিক Netlify সাইটের নাম বা ইউজারনেমটি আমাকে জানান। আমি লিংকে সেটা বসিয়ে দেব ভাই।
+            </p>
+        </div>
     </div>
 
 </body>
