@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - Premium Three Piece</title>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -97,10 +99,12 @@
 </head>
 <body>
 
+    <!-- Top Announcement Bar -->
     <div class="top-bar">
         <i class="fas fa-shipping-fast"></i> সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি!
     </div>
 
+    <!-- Header Navbar -->
     <div class="navbar">
         <div class="logo">Adury Collection</div>
         <div class="cart-icon" onclick="openCart()">
@@ -109,19 +113,24 @@
         </div>
     </div>
 
+    <!-- Premium Hero Banner -->
     <div class="hero">
         <h1>Adury Collection</h1>
         <p>নতুন ও এক্সক্লুসিভ থ্রি-পিস কালেকশন</p>
     </div>
 
+    <!-- Smart Search -->
     <div class="search-container">
         <input type="text" id="search" class="search-box" placeholder="আপনার পছন্দের থ্রি-পিস খুঁজুন..." onkeyup="searchProduct()">
         <i class="fas fa-search"></i>
     </div>
 
+    <!-- Section Title -->
     <div class="section-title">আমাদের কালেকশন</div>
 
+    <!-- Product Grid -->
     <div class="product-grid" id="product-list">
+        <!-- Product 1 -->
         <div class="product-card">
             <span class="badge">১৫% ছাড়</span>
             <div class="product-img-box">
@@ -142,6 +151,7 @@
             </div>
         </div>
 
+        <!-- Product 2 -->
         <div class="product-card">
             <span class="badge">১০% ছাড়</span>
             <div class="product-img-box">
@@ -162,6 +172,7 @@
             </div>
         </div>
 
+        <!-- Product 3 -->
         <div class="product-card">
             <span class="badge">বিশেষ অফার</span>
             <div class="product-img-box">
@@ -183,6 +194,7 @@
         </div>
     </div>
 
+    <!-- Trust Badges Section -->
     <div class="features">
         <div class="feature-item">
             <i class="fas fa-truck-moving"></i>
@@ -198,11 +210,13 @@
         </div>
     </div>
 
+    <!-- Floating Contact Buttons -->
     <div class="floating-buttons">
         <a href="https://wa.me/8801969080416" class="float-btn float-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="tel:01969080416" class="float-btn float-call"><i class="fas fa-phone-alt"></i></a>
     </div>
 
+    <!-- Premium Checkout Modal -->
     <div class="modal" id="cartModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -237,15 +251,20 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2026 Adury Collection. All Rights Reserved.</p>
         <p style="font-size: 12px; color: #bbb; margin-top: 6px; font-weight: 300;">সারা বাংলাদেশে নির্ভরযোগ্য ক্যাশ অন ডেলিভারি সেবা</p>
     </footer>
 
+    <!-- JavaScript Core -->
     <script>
         let currentProduct = "";
         let productPrice = 0;
         let productImage = "";
+        
+        // এখানে আপনার Web3Forms এর Access Key বসান
+        const WEB3FORMS_KEY = "YOUR_ACCESS_KEY_HERE"; 
 
         function addToCart(name, price, image) {
             currentProduct = name;
@@ -297,11 +316,26 @@
             let deliveryType = deliveryCost == "60" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে";
             let totalAmount = productPrice + parseInt(deliveryCost);
             
-            // Get website host URL to create absolute link for image preview
             let currentURL = window.location.href;
             let absoluteImgURL = currentURL.substring(0, currentURL.lastIndexOf('/')) + '/' + productImage;
 
-            // Premium WhatsApp Formatting
+            // ১. জিমেইলে অটোমেটিক ডাটা পাঠানোর ব্যবস্থা (Web3Forms API)
+            let formData = new FormData();
+            formData.append("access_key", WEB3FORMS_KEY);
+            formData.append("subject", "নতুন অর্ডার এসেছে - " + currentProduct);
+            formData.append("কাস্টমারের নাম", name);
+            formData.append("মোবাইল নম্বর", phone);
+            formData.append("ঠিকানা", address);
+            formData.append("প্রোডাক্ট", currentProduct);
+            formData.append("সর্বমোট বিল", "৳" + totalAmount);
+            formData.append("ছবির লিংক", absoluteImgURL);
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            // ২. হোয়াটসঅ্যাপে মেসেজ পাঠানো
             let message = `*নতুন অর্ডার - Adury Collection*%0A`;
             message += `========================%0A`;
             message += `*🛍️ প্রোডাক্ট:* ${currentProduct}%0A`;
