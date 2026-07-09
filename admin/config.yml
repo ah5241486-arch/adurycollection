@@ -2,6 +2,7 @@ backend:
   name: github
   repo: ah5241486-arch/adurycollection
   branch: main
+  client_id: Ov231iaApq5kGhgua45L
   base_url: https://api.decapcms.org
   site_domain: adurycollection.vercel.app
 
