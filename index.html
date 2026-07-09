@@ -1,109 +1,292 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adury Collection</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adury Collection - প্রিমিয়াম থ্রি-পিস কালেকশন</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #b30059;
+            --secondary-color: #25d366;
+            --dark-color: #222;
+            --light-color: #f8f9fa;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: #f4f6f9; color: var(--dark-color); }
+        
+        /* Top Announcement */
+        .top-bar { background: var(--primary-color); color: #fff; text-align: center; padding: 8px; font-size: 14px; font-weight: 600; }
+        
+        /* Navbar */
+        .navbar { background: #fff; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo { font-size: 22px; font-weight: 700; color: var(--primary-color); }
+        .cart-icon { font-size: 20px; cursor: pointer; position: relative; color: var(--dark-color); }
+        .cart-count { position: absolute; top: -10px; right: -10px; background: red; color: #fff; font-size: 12px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-<style>
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f5f5f5;
-}
+        /* Hero Banner */
+        .hero { background: linear-gradient(rgba(179, 0, 89, 0.1), rgba(0, 0, 0, 0.05)), url('20260630_135058.jpg') no-repeat center center/cover; height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--dark-color); padding: 20px; }
+        .hero h1 { font-size: 28px; color: var(--primary-color); text-shadow: 1px 1px 2px #fff; }
+        .hero p { font-size: 16px; margin-top: 5px; font-weight: 600; background: rgba(255,255,255,0.8); padding: 2px 10px; border-radius: 5px; }
 
-header{
-background:#b4004e;
-color:white;
-text-align:center;
-padding:20px;
-}
+        /* Search & Filter */
+        .search-container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; gap: 10px; }
+        .search-box { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; outline: none; }
 
-header h1{
-margin:0;
-}
+        /* Section Title */
+        .section-title { text-align: center; margin: 20px 0 10px; font-size: 22px; color: var(--primary-color); position: relative; }
+        .section-title::after { content: ''; display: block; width: 50px; height: 3px; background: var(--primary-color); margin: 5px auto 0; }
 
-header p{
-margin:8px 0;
-}
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 15px; max-width: 1200px; margin: 0 auto; }
+        .product-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+        .badge { position: absolute; top: 10px; left: 10px; background: orange; color: #fff; padding: 3px 8px; font-size: 12px; border-radius: 3px; font-weight: 600; }
+        .product-img { width: 100%; height: 320px; object-fit: cover; }
+        .product-info { padding: 15px; text-align: center; }
+        .product-title { font-size: 18px; margin-bottom: 8px; font-weight: 600; }
+        .price-box { margin-bottom: 10px; }
+        .old-price { text-decoration: line-through; color: #888; font-size: 14px; margin-right: 5px; }
+        .new-price { color: var(--primary-color); font-size: 18px; font-weight: 700; }
+        .stock-status { font-size: 13px; color: green; font-weight: 600; margin-bottom: 10px; }
+        .btn-order { background: var(--secondary-color); color: #fff; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        
+        /* Cart Sidebar & Checkout Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: #fff; padding: 20px; border-radius: 10px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px; }
+        .close-btn { font-size: 20px; cursor: pointer; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .checkout-btn { background: var(--primary-color); color: #fff; width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 15px; }
 
-.whatsapp{
-display:inline-block;
-background:#25D366;
-color:white;
-padding:10px 18px;
-text-decoration:none;
-border-radius:6px;
-font-weight:bold;
-}
+        /* Features section */
+        .features { display: flex; justify-content: space-around; background: #fff; padding: 15px 10px; text-align: center; margin-top: 30px; font-size: 12px; gap: 5px; }
+        .feature-item i { color: var(--primary-color); font-size: 20px; margin-bottom: 5px; }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
-
-.product{
-background:white;
-margin-bottom:25px;
-padding:15px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.product img{
-width:100%;
-border-radius:8px;
-}
-
-.product h2{
-text-align:center;
-}
-
-.order{
-display:block;
-background:#b4004e;
-color:white;
-text-align:center;
-padding:12px;
-text-decoration:none;
-border-radius:6px;
-font-size:18px;
-margin-top:10px;
-}
-</style>
-
+        /* Footer */
+        footer { background: var(--dark-color); color: #fff; text-align: center; padding: 20px; margin-top: 30px; font-size: 14px; }
+        
+        /* Floating Buttons */
+        .floating-buttons { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 999; }
+        .float-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); text-decoration: none; }
+        .float-wa { background: #25d366; }
+        .float-call { background: #007bff; }
+    </style>
 </head>
-
 <body>
 
-<header>
-<h1>Adury Collection</h1>
-<p>🚚 সারা বাংলাদেশে ক্যাশ অন ডেলিভারি</p>
-<a class="whatsapp" href="https://wa.me/8801969080416">WhatsApp অর্ডার করুন</a>
-</header>
+    <!-- Top Announcement -->
+    <div class="top-bar">
+        <i class="fas fa-truck"></i> সারা বাংলাদেশে ক্যাশ অন ডেলিভারি!
+    </div>
 
-<div class="container">
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">Adury Collection</div>
+        <div class="cart-icon" onclick="openCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </div>
 
-<div class="product">
-<img src="dress1.jpg">
-<h2>ডিজিটাল প্রিন্ট থ্রি-পিস</h2>
-<a class="order" href="https://wa.me/8801969080416">অর্ডার করুন</a>
-</div>
+    <!-- Hero Banner -->
+    <div class="hero">
+        <h1>নতুন থ্রি-পিস কালেকশন</h1>
+        <p>প্রিমিয়াম কোয়ালিটি ও আকর্ষণীয় ডিজাইন</p>
+    </div>
 
-<div class="product">
-<img src="dress2.jpg">
-<h2>ডিজিটাল প্রিন্ট থ্রি-পিস</h2>
-<a class="order" href="https://wa.me/8801969080416">অর্ডার করুন</a>
-</div>
+    <!-- Search Box -->
+    <div class="search-container">
+        <input type="text" id="search" class="search-box" placeholder="আপনার পছন্দের থ্রি-পিস খুঁজুন..." onkeyup="searchProduct()">
+    </div>
 
-<div class="product">
-<img src="dress3.jpg">
-<h2>ডিজিটাল প্রিন্ট থ্রি-পিস</h2>
-<a class="order" href="https://wa.me/8801969080416">অর্ডার করুন</a>
-</div>
+    <!-- Section Title -->
+    <div class="section-title">আমাদের প্রোডাক্টসমূহ</div>
 
-</div>
+    <!-- Product Grid -->
+    <div class="product-grid" id="product-list">
+        <!-- Product 1 -->
+        <div class="product-card">
+            <span class="badge">১৫% ছাড়</span>
+            <img src="20260630_135058.jpg" class="product-img" alt="ডিজিটাল প্রিন্ট থ্রি-পিস">
+            <div class="product-info">
+                <div class="product-title">ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-১)</div>
+                <div class="price-box">
+                    <span class="old-price">৳১,৫০০</span>
+                    <span class="new-price">৳১,২৭৫</span>
+                </div>
+                <div class="stock-status"><i class="fas fa-check-circle"></i> স্টকে আছে</div>
+                <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট থ্রি-পিস (ডিজাইন-১)', 1275)">
+                    <i class="fab fa-whatsapp"></i> অর্ডার করুন
+                </button>
+            </div>
+        </div>
 
+        <!-- Product 2 -->
+        <div class="product-card">
+            <span class="badge">১০% ছাড়</span>
+            <img src="20260630_135149.jpg" class="product-img" alt="লাক্সারি লিনেন থ্রি-পিস">
+            <div class="product-info">
+                <div class="product-title">ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-২)</div>
+                <div class="price-box">
+                    <span class="old-price">৳১,৬00</span>
+                    <span class="new-price">৳১,৪৪০</span>
+                </div>
+                <div class="stock-status"><i class="fas fa-check-circle"></i> স্টকে আছে</div>
+                <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট থ্রি-পিস (ডিজাইন-২)', 1440)">
+                    <i class="fab fa-whatsapp"></i> অর্ডার করুন
+                </button>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+            <span class="badge">বিজয়ী অফার</span>
+            <img src="20260630_135212.jpg" class="product-img" alt="এক্সক্লুসিভ জর্জেট থ্রি-পিস">
+            <div class="product-info">
+                <div class="product-title">ডিজিটাল প্রিন্ট সুতি থ্রি-পিস (ডিজাইন-৩)</div>
+                <div class="price-box">
+                    <span class="old-price">৳১,৮০০</span>
+                    <span class="new-price">৳১,৫০০</span>
+                </div>
+                <div class="stock-status"><i class="fas fa-check-circle"></i> স্টকে আছে</div>
+                <button class="btn-order" onclick="addToCart('ডিজিটাল প্রিন্ট থ্রি-পিস (ডিজাইন-৩)', 1500)">
+                    <i class="fab fa-whatsapp"></i> অর্ডার করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Area -->
+    <div class="features">
+        <div class="feature-item"><i class="fas fa-hand-holding-usd"></i><br>ক্যাশ অন ডেলিভারি</div>
+        <div class="feature-item"><i class="fas fa-undo"></i><br>সহজ রিটার্ন পলিসি</div>
+        <div class="feature-item"><i class="fas fa-headset"></i><br>২৪/৭ কাস্টমার সাপোর্ট</div>
+    </div>
+
+    <!-- Floating WhatsApp & Call Buttons -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/8801969080416" class="float-btn float-wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="tel:01969080416" class="float-btn float-call"><i class="fas fa-phone-alt"></i></a>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>অর্ডার ফর্ম (ক্যাশ অন ডেলিভারি)</h3>
+                <span class="close-btn" onclick="closeCart()">&times;</span>
+            </div>
+            <div id="cart-items-details" style="margin-bottom: 15px; font-weight: 600; color: var(--primary-color);"></div>
+            
+            <form id="orderForm" onsubmit="sendOrder(event)">
+                <div class="form-group">
+                    <label>আপনার নাম *</label>
+                    <input type="text" id="name" required placeholder="সম্পূর্ণ নাম লিখুন">
+                </div>
+                <div class="form-group">
+                    <label>মোবাইল নম্বর *</label>
+                    <input type="tel" id="phone" required placeholder="১১ ডিজিটের মোবাইল নম্বর">
+                </div>
+                <div class="form-group">
+                    <label>সম্পূর্ণ ঠিকানা *</label>
+                    <input type="text" id="address" required placeholder="গ্রাম/রোড, থানা, জেলা">
+                </div>
+                <div class="form-group">
+                    <label>ডেলিভারি এরিয়া *</label>
+                    <select id="delivery" onchange="updateTotal()" required>
+                        <option value="60">ঢাকার ভিতরে (৳৬০)</option>
+                        <option value="120">ঢাকার বাইরে (৳১২০)</option>
+                    </select>
+                </div>
+                <h4 style="margin-top: 15px; text-align: right;" id="total-price">সর্বমোট: ৳০</h4>
+                <button type="submit" class="checkout-btn"><i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার কনফার্ম করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Adury Collection. All Rights Reserved.</p>
+        <p style="font-size: 12px; color: #aaa; margin-top: 5px;">সারা বাংলাদেশে নির্ভরযোগ্য অনলাইন শপিং</p>
+    </footer>
+
+    <!-- JavaScript For Functionality -->
+    <script>
+        let currentProduct = "";
+        let productPrice = 0;
+
+        function addToCart(name, price) {
+            currentProduct = name;
+            productPrice = price;
+            document.getElementById('cart-count').innerText = "1";
+            openCart();
+        }
+
+        function openCart() {
+            if(!currentProduct) {
+                alert("প্রথমে একটি প্রোডাক্ট সিলেক্ট করুন!");
+                return;
+            }
+            document.getElementById('cartModal').style.display = 'flex';
+            document.getElementById('cart-items-details').innerText = "পণ্য: " + currentProduct + " (৳" + productPrice + ")";
+            updateTotal();
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function updateTotal() {
+            let deliveryCharge = parseInt(document.getElementById('delivery').value);
+            let total = productPrice + deliveryCharge;
+            document.getElementById('total-price').innerText = "সর্বমোট: ৳" + total;
+        }
+
+        function searchProduct() {
+            let filter = document.getElementById('search').value.toUpperCase();
+            let cards = document.getElementsByClassName('product-card');
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByClassName('product-title')[0];
+                if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        function sendOrder(event) {
+            event.preventDefault();
+            let name = document.getElementById('name').value;
+            let phone = document.getElementById('phone').value;
+            let address = document.getElementById('address').value;
+            let deliveryCost = document.getElementById('delivery').value;
+            let deliveryType = deliveryCost == "60" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে";
+            let totalAmount = productPrice + parseInt(deliveryCost);
+
+            // WhatsApp Message Formatting
+            let message = `*নতুন অর্ডার - Adury Collection*%0A`;
+            message += `------------------------%0A`;
+            message += `*প্রোডাক্ট:* ${currentProduct}%0A`;
+            message += `*মূল্য:* ৳${productPrice}%0A`;
+            message += `*ডেলিভারি:* ৳${deliveryCost} (${deliveryType})%0A`;
+            message += `*সর্বমোট বিল:* ৳${totalAmount}%0A`;
+            message += `------------------------%0A`;
+            message += `*গ্রাহকের নাম:* ${name}%0A`;
+            message += `*মোবাইল:* ${phone}%0A`;
+            message += `*ঠিকানা:* ${address}%0A`;
+            message += `------------------------%0A`;
+            message += `*পেমেন্ট মেথড:* Cash on Delivery`;
+
+            let whatsappURL = `https://wa.me/8801969080416?text=${message}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
 </body>
 </html>
