@@ -9,19 +9,38 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
       window.NETLIFY_IDENTITY_VERSION = "1";
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
     </script>
 
     <!-- Decap CMS Core Script -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
-<body style="background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+<body style="background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: Helvetica, Arial, sans-serif;">
 
-    <!-- এই বোতামটি সাদা স্ক্রিনের মাঝে একটি সুন্দর লগইন বক্স দেখাবে -->
-    <div style="text-align: center; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        <h2 style="color: #333; margin-bottom: 20px;">Adury Collection Admin</h2>
-        <button data-netlify-identity-button style="background-color: #0070f3; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-            Log In / Sign Up
-        </button>
+    <!-- ফেসবুক স্টাইল লগইন কার্ড -->
+    <div style="width: 100%; max-width: 360px; background: white; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center; box-sizing: border-box;">
+        
+        <!-- লোগো/টাইটেল -->
+        <h2 style="color: #1877f2; margin: 0 0 8px 0; font-size: 28px; font-weight: bold; letter-spacing: -0.5px;">Adury Collection</h2>
+        <p style="color: #606770; margin: 0 0 24px 0; font-size: 15px;">অ্যাডমিন প্যানেলে লগইন করুন</p>
+        
+        <!-- ফেসবুক স্টাইল বড় বাটন -->
+        <div data-netlify-identity-menu style="display: block;">
+            <button data-netlify-identity-button style="width: 100%; background-color: #1877f2; color: white; border: none; padding: 14px; font-size: 17px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background-color 0.2s ease-in-out;">
+                Log In / Sign Up
+            </button>
+        </div>
+        
+        <hr style="border: 0; border-top: 1px solid #e4e6eb; margin: 20px 0;">
+        <p style="color: #606770; font-size: 13px; margin: 0;">Adury Collection Wholesale Business</p>
     </div>
 
 </body>
