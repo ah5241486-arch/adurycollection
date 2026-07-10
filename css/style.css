@@ -1,39 +1,36 @@
-/* প্রোডাক্ট গ্রিড লেআউট */
-#flash-sale-products {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* মোবাইল ও ডেসকটপের জন্য সুন্দর ২ কলাম */
-    gap: 15px;
-    padding: 15px;
-}
-
-/* প্রতিটি কার্ডের ডিজাইন */
-.product-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* বাটন ডিজাইন */
-button {
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-}
-
-.pulsate-btn {
-    animation: pulse 1.5s infinite;
-    background: #e91e63;
+/* ব্যানার বা হিরো সেকশন ডিজাইন */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1200x400');
+    background-size: cover;
+    background-position: center;
     color: white;
-    width: 100%;
-    margin-top: 10px;
+    text-align: center;
+    padding: 80px 20px;
+    margin-bottom: 30px;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+.btn-shop {
+    background: #ff9800;
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-shop:hover {
+    background: #e68900;
+    transform: scale(1.05);
 }
