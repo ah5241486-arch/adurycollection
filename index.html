@@ -3,31 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adury Collection - প্রিমিয়াম শপ</title>
+    <title>Adury Collection - প্রিমিয়াম থ্রি-পিস</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
-        .header { background: #db2777; color: white; padding: 20px; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 15px; }
-        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .controls { margin: 10px 0; }
-        .btn-qty { padding: 5px 10px; cursor: pointer; border: none; background: #eee; border-radius: 4px; }
-        .order-btn { background: #25d366; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; margin-top: 15px; font-weight: bold; cursor: pointer; }
-        .summary { background: #fff; padding: 20px; border-radius: 10px; margin: 15px; border: 1px solid #ddd; }
+        :root { --primary: #db2777; --secondary: #25d366; }
+        body { font-family: 'Kalpurush', Arial, sans-serif; background: #fdf2f8; margin: 0; }
+        .header { background: var(--primary); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .banner { background: #fff; padding: 20px; margin: 10px; border-radius: 15px; text-align: center; border: 2px dashed var(--primary); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; padding: 15px; }
+        .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .btn-qty { padding: 8px 12px; background: #f1f1f1; border: none; border-radius: 6px; cursor: pointer; }
+        .order-btn { background: var(--secondary); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .summary { background: white; padding: 20px; margin: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>Adury Collection</h1></div>
 
+<div class="banner">
+    <h3>🔥 নতুন কালেকশন ২০২৬</h3>
+    <p>৫০০০ টাকার বেশি অর্ডারে ডেলিভারি ফ্রি!</p>
+</div>
+
 <div class="grid" id="shop"></div>
 
-<div class="summary">
-    <h3>অর্ডার সামারি</h3>
-    <p>মোট পণ্যের দাম: <span id="sub-total">0</span> টাকা</p>
-    <p>ডেলিভারি চার্জ: <span id="delivery-fee">0</span> টাকা</p>
+<div class="summary" id="cart-summary">
+    <h2>🛒 অর্ডার সামারি</h2>
+    <div id="cart-list"></div>
     <hr>
-    <h3>সর্বমোট বিল: <span id="grand-total">0</span> টাকা</h3>
-    <button class="order-btn" onclick="checkout()">WhatsApp-এ অর্ডার করুন</button>
+    <p>সাব-টোটাল: <span id="sub-total">0</span> টাকা</p>
+    <p>ডেলিভারি চার্জ: <span id="delivery-fee">0</span> টাকা</p>
+    <h2 style="color: var(--primary);">সর্বমোট: <span id="grand-total">0</span> টাকা</h2>
+    <input type="text" id="coupon" placeholder="কুপন কোড (যদি থাকে)" style="width: 90%; padding: 10px; margin-bottom: 10px;">
+    <button class="order-btn" onclick="checkout()">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
 </div>
 
 <script>
@@ -44,38 +52,35 @@
         shop.innerHTML = products.map((p, i) => `
             <div class="card">
                 <div style="font-weight:bold">${p.name}</div>
-                <div>${p.price} টাকা</div>
-                <div class="controls">
-                    <button class="btn-qty" onclick="updateQty(${i}, -1)">-</button>
-                    <span id="qty-${i}">${p.qty}</span>
-                    <button class="btn-qty" onclick="updateQty(${i}, 1)">+</button>
-                </div>
+                <p>${p.price} টাকা</p>
+                <button class="btn-qty" onclick="update(${i}, -1)">-</button>
+                <span style="margin: 0 10px;">${p.qty}</span>
+                <button class="btn-qty" onclick="update(${i}, 1)">+</button>
             </div>
         `).join('');
         calculate();
     }
 
-    function updateQty(i, val) {
+    function update(i, val) {
         products[i].qty = Math.max(0, products[i].qty + val);
         render();
     }
 
     function calculate() {
         let totalQty = products.reduce((sum, p) => sum + p.qty, 0);
-        let subTotal = products.reduce((sum, p) => sum + (p.qty * p.price), 0);
-        let deliveryFee = totalQty > 0 ? (130 + (totalQty - 1) * 10) : 0;
+        let sub = products.reduce((sum, p) => sum + (p.qty * p.price), 0);
+        let delivery = totalQty > 0 ? (130 + (totalQty - 1) * 10) : 0;
+        if(sub > 5000) delivery = 0; // ৫০০০ এর উপরে ফ্রি ডেলিভারি লজিক
         
-        document.getElementById('sub-total').innerText = subTotal;
-        document.getElementById('delivery-fee').innerText = deliveryFee;
-        document.getElementById('grand-total').innerText = subTotal + deliveryFee;
+        document.getElementById('sub-total').innerText = sub;
+        document.getElementById('delivery-fee').innerText = delivery;
+        document.getElementById('grand-total').innerText = sub + delivery;
     }
 
     function checkout() {
         let items = products.filter(p => p.qty > 0).map(p => `${p.name} (${p.qty} পিস)`).join(', ');
         let total = document.getElementById('grand-total').innerText;
-        if(items === "") { alert("প্রথমে পণ্য সিলেক্ট করুন!"); return; }
-        let msg = `আমি অর্ডার করতে চাই: ${items}%0Aসর্বমোট বিল: ${total} টাকা`;
-        window.open("https://wa.me/8801969080416?text=" + msg, "_blank");
+        window.open(`https://wa.me/8801969080416?text=অর্ডার করতে চাই:%0A${items}%0Aসর্বমোট বিল: ${total} টাকা`, "_blank");
     }
 
     render();
