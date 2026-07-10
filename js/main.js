@@ -1,5 +1,13 @@
 // আমাদের প্রোডাক্টগুলোর একটি লিস্ট বা ডাটাবেজ
-const products = [
+const products = [const products = [
+    { id: 1, name: "কাশ্মীরি", price: "৪৯০ টাকা", image: "https://via.placeholder.com/250" },
+    { id: 2, name: "এয়ারটেল", price: "৫৫০ টাকা", image: "https://via.placeholder.com/250" },
+    { id: 3, name: "জমজম", price: "৬০০ টাকা", image: "https://via.placeholder.com/250" },
+    { id: 4, name: "আরি সিকুয়েবস", price: "৬৫০ টাকা", image: "https://via.placeholder.com/250" },
+    { id: 5, name: "মার্শাল", price: "৯৫০ টাকা", image: "https://via.placeholder.com/250" },
+    { id: 6, name: "জয়পুরী", price: "৭৫০ টাকা", image: "https://via.placeholder.com/250" }
+];
+
     {
         id: 1,
         name: "কাশ্মীরি শাল",
