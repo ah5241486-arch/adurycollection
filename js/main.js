@@ -7,8 +7,12 @@ const products = [
     { id: 6, name: "জয়পুরী", price: 750, image: "https://via.placeholder.com/200" }
 ];
 
+let currentProduct = null;
+let currentQty = 0;
+
 function displayProducts() {
     const container = document.getElementById('flash-sale-products');
+    if (!container) return;
     container.style.display = "grid";
     container.style.gridTemplateColumns = "1fr 1fr";
     container.style.gap = "10px";
@@ -18,9 +22,8 @@ function displayProducts() {
             <img src="${product.image}" style="width: 100%; border-radius: 8px;">
             <h4 style="margin: 8px 0;">${product.name}</h4>
             <p style="color: #ff9800; font-weight: bold;">৳${product.price}</p>
-            
             <div id="action-area-${product.id}">
-                <button id="add-btn-${product.id}" onclick="showControls(${product.id})" style="width:100%; background:#ff9800; color:white; border:none; padding:8px; border-radius:5px;">Add to Cart</button>
+                <button id="add-btn-${product.id}" onclick="showControls(${product.id})" class="pulsate-btn" style="width:100%; background:#ff9800; border:none; padding:8px; border-radius:5px;">Add to Cart</button>
             </div>
         </div>
     `).join('');
@@ -31,10 +34,10 @@ function showControls(id) {
     area.innerHTML = `
         <div style="margin-bottom: 5px;">
             <button onclick="updateQty(${id}, -1)">-</button>
-            <span id="qty-${id}" style="margin: 0 10px;">1</span>
+            <span id="qty-${id}" style="margin: 0 10px; font-weight:bold;">1</span>
             <button onclick="updateQty(${id}, 1)">+</button>
         </div>
-        <button onclick="orderSingle(${id})" style="width:100%; background:green; color:white; border:none; padding:5px; border-radius:5px;">Order Now</button>
+        <button onclick="openCheckout(${id})" class="pulsate-btn" style="width:100%; background:green; border:none; padding:8px; border-radius:5px;">Order Now</button>
     `;
 }
 
@@ -44,14 +47,33 @@ function updateQty(id, change) {
     span.innerText = val;
 }
 
-function orderSingle(id) {
-    const product = products.find(p => p.id === id);
-    const qty = parseInt(document.getElementById(`qty-${id}`).innerText);
-    const delivery = 130 + (qty > 2 ? (qty - 2) * 10 : 0);
-    const total = (product.price * qty) + delivery;
-    
-    let msg = `অর্ডার: ${product.name} (${qty} পিস) - ${product.price * qty} টাকা%0Aডেলিভারি: ${delivery} টাকা%0Aমোট: ${total} টাকা%0A%0Aআপনার নাম ও ঠিকানা দিন:`;
+function openCheckout(id) {
+    currentProduct = products.find(p => p.id === id);
+    currentQty = parseInt(document.getElementById(`qty-${id}`).innerText);
+    document.getElementById('checkout-modal').style.display = 'block';
+}
+
+function confirmOrder() {
+    const name = document.getElementById('cust-name').value;
+    const addr = document.getElementById('cust-address').value;
+    const phone = document.getElementById('cust-phone').value;
+
+    if (!name || !addr || !phone) return alert("দয়া করে নাম, ঠিকানা ও ফোন নম্বর লিখুন!");
+
+    const delivery = 130 + (currentQty > 2 ? (currentQty - 2) * 10 : 0);
+    const total = (currentProduct.price * currentQty) + delivery;
+
+    let msg = `নতুন অর্ডার এসেছে!%0A--------------------%0Aনাম: ${name}%0Aঠিকানা: ${addr}%0Aফোন: ${phone}%0A--------------------%0Aপণ্য: ${currentProduct.name}%0Aপরিমাণ: ${currentQty} পিস%0Aদাম: ${currentProduct.price * currentQty} টাকা%0Aডেলিভারি চার্জ: ${delivery} টাকা%0Aমোট বিল: ${total} টাকা`;
+
     window.location.href = `https://wa.me/8801969080416?text=${msg}`;
 }
+
+// স্টাইল ইনজেক্ট করা (লাফালাফি বাটন)
+const style = document.createElement('style');
+style.innerHTML = `
+    .pulsate-btn { animation: pulse 1.5s infinite; color: white; cursor: pointer; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(0,0,0,0.3); } 100% { transform: scale(1); } }
+`;
+document.head.appendChild(style);
 
 document.addEventListener("DOMContentLoaded", displayProducts);
