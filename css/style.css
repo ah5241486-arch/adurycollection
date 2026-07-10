@@ -1,78 +1,39 @@
-/* ১. সাধারণ ডিজাইন */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-}
-
-/* ২. প্রোডাক্ট গ্রিড লেআউট */
+/* প্রোডাক্ট গ্রিড লেআউট */
 #flash-sale-products {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* মোবাইল ও ডেসকটপের জন্য সুন্দর ২ কলাম */
     gap: 15px;
     padding: 15px;
 }
 
-/* ৩. প্রোডাক্ট কার্ড স্টাইল */
+/* প্রতিটি কার্ডের ডিজাইন */
 .product-card {
     background: #fff;
-    border: 1px solid #eee;
-    padding: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.product-card img {
-    width: 100%;
-    border-radius: 8px;
+/* বাটন ডিজাইন */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
 }
 
-/* ৪. লাফালাফি করা বাটনের অ্যানিমেশন */
 .pulsate-btn {
     animation: pulse 1.5s infinite;
+    background: #e91e63;
     color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+    width: 100%;
+    margin-top: 10px;
 }
 
 @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+    50% { transform: scale(1.05); }
     100% { transform: scale(1); }
-}
-
-/* ৫. মডাল (চেকআউট ফর্ম) স্টাইল */
-#checkout-modal {
-    display: none;
-    position: fixed;
-    top: 20%;
-    left: 5%;
-    width: 90%;
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    z-index: 1000;
-}
-
-#checkout-modal input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* ইনপুট বক্স যেন বাইরে না যায় */
-}
-
-/* ৬. মোবাইল রেসপন্সিভনেস */
-@media (max-width: 600px) {
-    #flash-sale-products {
-        grid-template-columns: 1fr 1fr; /* মোবাইল ভার্সনে ২ কলাম */
-    }
 }
