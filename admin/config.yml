@@ -3,8 +3,6 @@ backend:
   repo: ah5241486-arch/adurycollection
   branch: main
   client_id: Ov231iaApq5kGhgua45L
-  base_url: https://api.decapcms.org
-  site_domain: adurycollection.vercel.app
 
 media_folder: "public/images"
 public_folder: "/images"
@@ -20,3 +18,4 @@ collections:
       - { label: "Price", name: "price", widget: "number" }
       - { label: "Image", name: "image", widget: "image" }
       - { label: "Description", name: "description", widget: "text" }
+      
