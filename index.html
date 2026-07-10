@@ -1,22 +1,133 @@
-Create a modern, professional, fully responsive eCommerce website similar in layout and functionality to a leading Bangladeshi online marketplace.
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adury Collection | Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-Do NOT use any logo, brand name, copyrighted images, or copy the original design exactly.
+    <header class="header">
+        <div class="container">
+            <div class="logo">Adury<span>Collection</span></div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">হোম</a></li>
+                    <li><a href="#">শপ</a></li>
+                    <li><a href="#">যোগাযোগ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <input type="text" placeholder="সার্চ...">
+                <a href="#">🛒</a>
+            </div>
+        </div>
+    </header>
 
-Include:
-- Sticky header
-- Search bar
-- Category menu
-- Hero banner slider
-- Featured categories
-- Flash Sale section
-- Best Selling Products
-- New Arrivals
-- Product cards with image, discount, price, rating, Add to Cart and Buy Now
-- Customer reviews
-- Newsletter section
-- Professional footer
-- Mobile responsive
-- Smooth animations
-- SEO-friendly
-- Separate HTML, CSS and JavaScript files
-- Clean, modern UI with premium design
+    <main id="main-content"></main>
+
+    <script src="js/main.js"></script>
+</body>
+</html><section class="hero">
+    <div class="container">
+        <h1>আপনার স্টাইলের নতুন ঠিকানা</h1>
+        <p>সেরা কালেকশন এবং প্রিমিয়াম কোয়ালিটি পণ্য এখন হাতের নাগালে।</p>
+        <a href="#shop" class="btn-shop">কেনাকাটা শুরু করুন</a>
+    </div>
+</section>
+
+<section class="categories">
+    <div class="container">
+        <h2>ক্যাটাগরি</h2>
+        <div class="cat-grid">
+            <div class="cat-card">কাশ্মীরি</div>
+            <div class="cat-card">জমজম</div>
+            <div class="cat-card">নতুন কালেকশন</div>
+        </div>
+    </div>
+</section>
+<section class="flash-sale">
+    <div class="container">
+        <h2>ফ্ল্যাশ সেল</h2>
+        <div class="product-grid" id="flash-sale-products">
+            </div>
+    </div>
+</section>
+
+<section class="best-selling">
+    <div class="container">
+        <h2>বেস্ট সেলিং পণ্য</h2>
+        <div class="product-grid" id="best-selling-products">
+            </div>
+    </div>
+</section>
+
+<section class="new-arrivals">
+    <div class="container">
+        <h2>নতুন কালেকশন</h2>
+        <div class="product-grid" id="new-arrivals-products">
+            </div>
+    </div>
+</section>
+
+<section class="featured">
+    <div class="container">
+        <h2>ফিচারড পণ্য</h2>
+        <div class="product-grid" id="featured-products">
+            </div>
+    </div>
+</section>
+<section class="reviews">
+    <div class="container">
+        <h2>গ্রাহকদের মতামত</h2>
+        <div class="review-grid">
+            <div class="review-card">
+                <p>"অসাধারণ পণ্য! কোয়ালিটি অনেক ভালো।"</p>
+                <h4>- রহিম</h4>
+            </div>
+            <div class="review-card">
+                <p>"সময়মতো ডেলিভারি পেয়েছি, ধন্যবাদ।"</p>
+                <h4>- করিম</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter">
+    <div class="container">
+        <h2>অফার পেতে সাবস্ক্রাইব করুন</h2>
+        <form>
+            <input type="email" placeholder="আপনার ইমেইল ঠিকানা দিন">
+            <button type="submit">সাবস্ক্রাইব</button>
+        </form>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Adury Collection</h3>
+                <p>আমাদের সাথে থাকার জন্য ধন্যবাদ। মানসম্মত পণ্যই আমাদের প্রতিশ্রুতি।</p>
+            </div>
+            <div class="footer-col">
+                <h3>জরুরি লিঙ্ক</h3>
+                <ul>
+                    <li><a href="#">আমাদের সম্পর্কে</a></li>
+                    <li><a href="#">প্রাইভেসি পলিসি</a></li>
+                    <li><a href="#">নিয়ম ও শর্তাবলী</a></li>
+                    <li><a href="#">রিটার্ন ও রিফান্ড</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>যোগাযোগ</h3>
+                <p>ফোন: ০১৭XXXXXXXX</p>
+                <p>ইমেইল: info@adury.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ২০২৬ Adury Collection - সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </div>
+</footer>
+
