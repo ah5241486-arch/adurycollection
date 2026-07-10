@@ -5,93 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - প্রিমিয়াম শপ</title>
     <style>
-        :root { --primary: #db2777; }
-        body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
-        .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
-        .nav { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 10px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 15px; }
-        .card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .btn { background: var(--primary); color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 5px; }
-        .cart-section { background: white; padding: 20px; margin: 15px; border-radius: 10px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
+        .header { background: #db2777; color: white; padding: 20px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 15px; }
+        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .controls { margin: 10px 0; }
+        .btn-qty { padding: 5px 10px; cursor: pointer; border: none; background: #eee; border-radius: 4px; }
+        .order-btn { background: #25d366; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; margin-top: 15px; font-weight: bold; cursor: pointer; }
+        .summary { background: #fff; padding: 20px; border-radius: 10px; margin: 15px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>Adury Collection</h1></div>
-<div class="nav">
-    <button onclick="showSection('home')">🏠 হোম</button>
-    <button onclick="showSection('cart')">🛒 কার্ট পেজ</button>
-</div>
 
-<div id="home-section">
-    <div class="grid" id="product-grid"></div>
-</div>
+<div class="grid" id="shop"></div>
 
-<div id="cart-section" class="cart-section" style="display:none;">
-    <h2>আপনার অর্ডার সামারি</h2>
-    <div id="cart-items"></div>
-    <div id="price-details" style="margin-top: 15px; line-height: 1.8;">
-        <p>মোট পণ্যের দাম: <span id="sub-total">0</span> টাকা</p>
-        <p>ডেলিভারি চার্জ: <span id="delivery-fee">0</span> টাকা</p>
-        <hr>
-        <h3 style="color: var(--primary);">সর্বমোট বিল: <span id="grand-total">0</span> টাকা</h3>
-    </div>
-    <h3>ডেলিভারি তথ্য</h3>
-    <input type="text" id="name" placeholder="নাম" style="width:100%; padding: 10px; margin-bottom: 10px;"><br>
-    <input type="text" id="address" placeholder="ঠিকানা" style="width:100%; padding: 10px; margin-bottom: 10px;"><br>
-    <button class="btn" style="background:#25d366; padding: 15px;" onclick="checkout()">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
+<div class="summary">
+    <h3>অর্ডার সামারি</h3>
+    <p>মোট পণ্যের দাম: <span id="sub-total">0</span> টাকা</p>
+    <p>ডেলিভারি চার্জ: <span id="delivery-fee">0</span> টাকা</p>
+    <hr>
+    <h3>সর্বমোট বিল: <span id="grand-total">0</span> টাকা</h3>
+    <button class="order-btn" onclick="checkout()">WhatsApp-এ অর্ডার করুন</button>
 </div>
 
 <script>
     const products = [
-        { name: "কাশ্মীরি থ্রি-পিস", price: 480 },
-        { name: "জমজম থ্রি-পিস", price: 620 },
-        { name: "লেটেক থ্রি-পিস", price: 550 },
-        { name: "আরিসিকুয়েন্স", price: 650 },
-        { name: "মার্শাল", price: 950 }
+        { name: "কাশ্মীরি থ্রি-পিস", price: 480, qty: 0 },
+        { name: "জমজম থ্রি-পিস", price: 620, qty: 0 },
+        { name: "লেটেক থ্রি-পিস", price: 550, qty: 0 },
+        { name: "আরিসিকুয়েন্স", price: 650, qty: 0 },
+        { name: "মার্শাল", price: 950, qty: 0 }
     ];
 
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function renderProducts() {
-        document.getElementById('product-grid').innerHTML = products.map(p => `
+    function render() {
+        const shop = document.getElementById('shop');
+        shop.innerHTML = products.map((p, i) => `
             <div class="card">
-                <h3>${p.name}</h3>
-                <p>${p.price} টাকা</p>
-                <button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+                <div style="font-weight:bold">${p.name}</div>
+                <div>${p.price} টাকা</div>
+                <div class="controls">
+                    <button class="btn-qty" onclick="updateQty(${i}, -1)">-</button>
+                    <span id="qty-${i}">${p.qty}</span>
+                    <button class="btn-qty" onclick="updateQty(${i}, 1)">+</button>
+                </div>
             </div>
         `).join('');
+        calculate();
     }
 
-    function addToCart(name, price) {
-        cart.push({ name, price });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert(name + " কার্টে যোগ হয়েছে!");
+    function updateQty(i, val) {
+        products[i].qty = Math.max(0, products[i].qty + val);
+        render();
     }
 
-    function showSection(s) {
-        document.getElementById('home-section').style.display = s == 'home' ? 'block' : 'none';
-        document.getElementById('cart-section').style.display = s == 'cart' ? 'block' : 'none';
-        if(s == 'cart') renderCart();
-    }
-
-    function renderCart() {
-        let subTotal = cart.reduce((sum, item) => sum + item.price, 0);
-        let deliveryFee = cart.length > 0 ? (130 + (cart.length - 1) * 10) : 0;
-        document.getElementById('cart-items').innerHTML = cart.map(i => `<p>${i.name} - ${i.price} টাকা</p>`).join('');
+    function calculate() {
+        let totalQty = products.reduce((sum, p) => sum + p.qty, 0);
+        let subTotal = products.reduce((sum, p) => sum + (p.qty * p.price), 0);
+        let deliveryFee = totalQty > 0 ? (130 + (totalQty - 1) * 10) : 0;
+        
         document.getElementById('sub-total').innerText = subTotal;
         document.getElementById('delivery-fee').innerText = deliveryFee;
         document.getElementById('grand-total').innerText = subTotal + deliveryFee;
     }
 
     function checkout() {
-        let name = document.getElementById('name').value;
-        let address = document.getElementById('address').value;
-        let msg = `অর্ডার কনফার্ম করুন:%0Aনাম: ${name}%0Aঠিকানা: ${address}%0Aপণ্য: ${cart.map(i => i.name).join(', ')}%0Aসর্বমোট বিল: ${document.getElementById('grand-total').innerText} টাকা`;
-        window.open("https://wa.me/8801969080416?text=" + msg);
+        let items = products.filter(p => p.qty > 0).map(p => `${p.name} (${p.qty} পিস)`).join(', ');
+        let total = document.getElementById('grand-total').innerText;
+        if(items === "") { alert("প্রথমে পণ্য সিলেক্ট করুন!"); return; }
+        let msg = `আমি অর্ডার করতে চাই: ${items}%0Aসর্বমোট বিল: ${total} টাকা`;
+        window.open("https://wa.me/8801969080416?text=" + msg, "_blank");
     }
 
-    renderProducts();
+    render();
 </script>
 </body>
 </html>
