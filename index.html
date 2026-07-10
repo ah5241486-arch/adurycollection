@@ -3,106 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adury Collection | প্রিমিয়াম শপ</title>
+    <title>Adury Collection</title>
     <style>
         :root { --primary: #db2777; --secondary: #25d366; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; }
-        
-        /* লোগো ও ব্যানার স্টাইল */
-        .header-section { background: white; text-align: center; padding: 10px; }
-        .logo { width: 120px; border-radius: 50%; margin-bottom: 10px; }
-        .banner { width: 100%; height: 150px; object-fit: cover; }
-        
-        .nav { background: var(--primary); color: white; padding: 10px; text-align: center; }
-        .category-bar { display: flex; gap: 10px; padding: 10px; overflow-x: auto; background: white; }
-        .btn-cat { background: #eee; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-        .card { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        .card img { width: 100%; height: 140px; border-radius: 8px; object-fit: cover; }
-        
-        .btn-add { 
-            background: var(--primary); color: white; width: 100%; padding: 10px; 
-            border: none; border-radius: 5px; margin-top: 10px; cursor: pointer;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        
-        #cart-modal { position: fixed; bottom: 0; width: 100%; background: white; padding: 20px; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); display: none; }
+        body { font-family: sans-serif; background: #f8f9fa; margin: 0; padding-bottom: 200px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .card { background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .qty-control { margin: 10px 0; display: flex; justify-content: center; gap: 10px; align-items: center; }
+        .btn-action { padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; background: #eee; }
+        .btn-order { background: var(--primary); color: white; width: 100%; padding: 10px; border: none; border-radius: 5px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        #cart-section { position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; box-shadow: 0 -5px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-<!-- লোগো এবং ব্যানার সেকশন -->
-<div class="header-section">
-    <img src="YOUR_LOGO_URL_HERE" alt="Logo" class="logo">
-    <img src="YOUR_BANNER_URL_HERE" alt="Banner" class="banner">
-</div>
+<div class="grid" id="product-list"></div>
 
-<div class="nav"><h2>Adury Collection</h2></div>
-
-<div class="category-bar">
-    <button class="btn-cat" onclick="filterProducts('all')">সব পণ্য</button>
-    <button class="btn-cat" onclick="filterProducts('কাশ্মীরি')">কাশ্মীরি</button>
-    <button class="btn-cat" onclick="filterProducts('জমজম')">জমজম</button>
-</div>
-
-<div class="grid" id="shop"></div>
-
-<div id="cart-modal">
-    <h3>আপনার অর্ডার লিস্ট</h3>
-    <div id="cart-list" style="margin: 10px 0;"></div>
-    <p>ডেলিভারি চার্জ: ১৫০ টাকা</p>
-    <p><strong>সর্বমোট বিল: <span id="grand-total">0</span> টাকা</strong></p>
-    <input type="text" id="name" placeholder="আপনার নাম" style="width:100%; padding:10px; margin:5px 0; box-sizing:border-box;">
-    <input type="text" id="phone" placeholder="ফোন নাম্বার" style="width:100%; padding:10px; margin:5px 0; box-sizing:border-box;">
-    <button style="background:var(--secondary); color:white; width:100%; padding:15px; border:none; border-radius:5px; font-weight:bold; cursor:pointer;" onclick="sendWhatsApp()">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
+<div id="cart-section">
+    <strong>সর্বমোট বিল: <span id="grand-total">0</span> টাকা</strong>
+    <input type="text" id="name" placeholder="নাম" style="width:100%; margin:5px 0; padding:8px;">
+    <input type="text" id="phone" placeholder="ফোন" style="width:100%; margin:5px 0; padding:8px;">
+    <button style="background:var(--secondary); color:white; width:100%; padding:12px; border:none;" onclick="checkout()">অর্ডার নাও</button>
 </div>
 
 <script>
     const products = [
-        { id: 1, name: "কাশ্মীরি থ্রি-পিস", price: 480, cat: "কাশ্মীরি", img: "https://i.imgur.com/x0Q47z4.jpg" },
-        { id: 2, name: "জমজম থ্রি-পিস", price: 620, cat: "জমজম", img: "https://i.imgur.com/5Jb2b3G.jpg" }
+        { id: 1, name: "কাশ্মীরি থ্রি-পিস", price: 480 },
+        { id: 2, name: "জমজম থ্রি-পিস", price: 620 }
     ];
-    let cart = [];
+    // প্রতিটি পণ্যের জন্য আলাদা qty সেট করা
+    products.forEach(p => p.qty = 0);
 
-    function render(list) {
-        document.getElementById('shop').innerHTML = list.map(p => `
+    function render() {
+        document.getElementById('product-list').innerHTML = products.map((p, i) => `
             <div class="card">
-                <img src="${p.img}" alt="${p.name}">
-                <p style="margin: 8px 0;">${p.name}</p>
-                <b>${p.price} টাকা</b>
-                <button class="btn-add" onclick="addToCart(${p.id})">Add to Cart</button>
+                <b>${p.name}</b><br>${p.price} টাকা
+                <div class="qty-control">
+                    <button class="btn-action" onclick="updateQty(${i}, -1)">-</button>
+                    <span>${p.qty}</span>
+                    <button class="btn-action" onclick="updateQty(${i}, 1)">+</button>
+                </div>
             </div>
         `).join('');
+        calculateTotal();
     }
 
-    function filterProducts(cat) {
-        if(cat === 'all') render(products);
-        else render(products.filter(p => p.cat === cat));
+    function updateQty(i, val) {
+        products[i].qty = Math.max(0, products[i].qty + val);
+        render();
     }
 
-    function addToCart(id) {
-        let p = products.find(x => x.id === id);
-        let exists = cart.find(x => x.id === id);
-        if(exists) exists.qty++; else cart.push({...p, qty: 1});
-        document.getElementById('cart-modal').style.display = 'block';
-        updateCart();
+    function calculateTotal() {
+        let total = products.reduce((sum, p) => sum + (p.price * p.qty), 0);
+        document.getElementById('grand-total').innerText = total + (total > 0 ? 150 : 0);
     }
 
-    function updateCart() {
-        let list = cart.map(p => `<div>${p.name} (x${p.qty}) - ${p.price * p.qty} টাকা</div>`).join('');
-        let total = cart.reduce((sum, p) => sum + (p.price * p.qty), 0);
-        document.getElementById('cart-list').innerHTML = list;
-        document.getElementById('grand-total').innerText = total + 150;
-    }
-
-    function sendWhatsApp() {
-        let name = document.getElementById('name').value;
-        let phone = document.getElementById('phone').value;
-        let msg = `অর্ডার কনফার্ম:%0Aনাম: ${name}%0Aফোন: ${phone}%0A---%0A` + cart.map(p => `${p.name} (x${p.qty})`).join('%0A') + "%0Aমোট বিল: " + document.getElementById('grand-total').innerText + " টাকা";
+    function checkout() {
+        let items = products.filter(p => p.qty > 0);
+        if(items.length === 0) return alert("পণ্য সিলেক্ট করুন!");
+        let msg = `অর্ডার:%0A` + items.map(p => `${p.name} (${p.qty} টি)`).join('%0A') + `%0Aমোট: ${document.getElementById('grand-total').innerText} টাকা`;
         window.open(`https://wa.me/8801969080416?text=${msg}`, '_blank');
     }
-    render(products);
+    render();
 </script>
 </body>
 </html>
