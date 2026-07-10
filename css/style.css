@@ -214,3 +214,18 @@ h2 { text-align: center; margin-bottom: 30px; color: #2d3436; }
         margin-left: 0; 
     }
 }
+.pulsate-btn {
+    animation: pulse 1.5s infinite;
+    cursor: pointer;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); }
+    100% { transform: scale(1); }
+}
