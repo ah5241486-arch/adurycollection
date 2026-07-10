@@ -2,20 +2,24 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f4f4; color: #333; }
         .header { background: #333; color: white; padding: 15px; text-align: center; }
-        .hero-banner { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1595777457583-95e059d50a58?auto=format&fit=crop&w=1200&q=80'); background-size: cover; padding: 50px 20px; text-align: center; color: white; }
         .container { width: 95%; margin: auto; max-width: 600px; padding-bottom: 20px; }
+        .hero-banner { background: #222; padding: 40px 20px; text-align: center; color: white; }
         .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .product-card { background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; }
-        .modal-content { background: white; width: 90%; max-width: 400px; margin: 30px auto; padding: 20px; border-radius: 15px; }
-        .summary-box { background: #e8f5e9; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 15px; border: 1px solid #c8e6c9; }
+        
+        /* মডাল স্টাইল - সবকিছুর ওপরে থাকবে */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 99999; }
+        .modal-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        
+        .summary-box { background: #f9f9f9; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ddd; }
         input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
         .btn-confirm { background: #28a745; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .btn-close { background: #6c757d; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; margin-top: 10px; cursor: pointer; }
+        .btn-close { background: #dc3545; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -32,7 +36,6 @@
         <div class="product-grid" id="flash-sale-products"></div>
     </div>
 
-    <!-- সুন্দর চেকআউট প্যানেল -->
     <div id="checkout-modal" class="modal">
         <div class="modal-content">
             <h3 style="text-align: center; margin-top:0;">অর্ডার নিশ্চিত করুন</h3>
@@ -68,30 +71,15 @@
                     <h4>${p.name}</h4>
                     <p>দাম: ৳${p.price}</p>
                     <div id="controls-${p.id}">
-                        <button onclick="showOrderForm(${p.id})" style="background:#ff4081; color:white; border:none; padding:8px 15px; border-radius:5px; width:100%;">Order Now</button>
+                        <button onclick="openCheckout(${p.id}, 1)" style="background:#ff4081; color:white; border:none; padding:8px 15px; border-radius:5px; width:100%;">Order Now</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function showOrderForm(id) {
-            document.getElementById(`controls-${id}`).innerHTML = `
-                <button onclick="changeQty(${id}, -1)">-</button>
-                <span id="qty-${id}" style="margin:0 10px; font-weight:bold;">1</span>
-                <button onclick="changeQty(${id}, 1)">+</button>
-                <button onclick="openCheckout(${id})" style="display:block; width:100%; margin-top:5px; background:#28a745; color:white; border:none; padding:5px;">Confirm</button>
-            `;
-        }
-
-        function changeQty(id, val) {
-            const span = document.getElementById(`qty-${id}`);
-            let qty = Math.max(1, parseInt(span.innerText) + val);
-            span.innerText = qty;
-        }
-
-        function openCheckout(id) {
+        function openCheckout(id, qty = 1) {
             window.selectedProd = products.find(p => p.id === id);
-            window.selectedQty = parseInt(document.getElementById(`qty-${id}`).innerText);
+            window.selectedQty = qty;
             
             const subTotal = window.selectedProd.price * window.selectedQty;
             let delCharge = 130 + (window.selectedQty > 2 ? (window.selectedQty - 2) * 10 : 0);
@@ -100,11 +88,10 @@
             document.getElementById('order-summary').innerHTML = `
                 <p><strong>পণ্য:</strong> ${window.selectedProd.name}</p>
                 <p><strong>পরিমাণ:</strong> ${window.selectedQty} পিস</p>
-                <p><strong>ইউনিট দাম:</strong> ৳${window.selectedProd.price}</p>
-                <p><strong>পণ্যের মোট দাম:</strong> ৳${subTotal}</p>
+                <p><strong>পণ্যের দাম:</strong> ৳${subTotal}</p>
                 <p><strong>ডেলিভারি চার্জ:</strong> ৳${delCharge}</p>
                 <hr>
-                <p style="font-size:16px; font-weight:bold; color:#d32f2f;">মোট বিল: ৳${total}</p>
+                <p style="font-size:16px; font-weight:bold; color:red;">মোট বিল: ৳${total}</p>
             `;
             document.getElementById('checkout-modal').style.display = 'block';
         }
@@ -115,7 +102,7 @@
             const phone = document.getElementById('cust-phone').value;
             const color = document.getElementById('cust-color').value;
 
-            if(!name || !addr || !phone || !color) return alert("দয়া করে সব তথ্য এবং রঙ সিলেক্ট করুন!");
+            if(!name || !addr || !phone || !color) return alert("দয়া করে সব তথ্য পূরণ করুন!");
 
             let delCharge = 130 + (window.selectedQty > 2 ? (window.selectedQty - 2) * 10 : 0);
             const totalBill = (window.selectedProd.price * window.selectedQty) + delCharge;
