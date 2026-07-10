@@ -5,24 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - প্রিমিয়াম শপ</title>
     <style>
-        :root { --primary: #db2777; --dark: #333; }
+        :root { --primary: #db2777; }
         body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
         .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
-        .nav { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; }
-        .card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+        .nav { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 15px; }
+        .card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
         .btn { background: var(--primary); color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 5px; }
-        .cart-section { background: white; padding: 20px; margin: 20px; border-radius: 10px; }
+        .cart-section { background: white; padding: 20px; margin: 15px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="header"><h1>Adury Collection</h1></div>
 <div class="nav">
-    <input type="text" id="search" placeholder="পণ্য খুঁজুন..." onkeyup="filterProducts()">
-    <button onclick="showSection('home')">হোম</button>
-    <button onclick="showSection('cart')">কার্ট (🛒)</button>
+    <button onclick="showSection('home')">🏠 হোম</button>
+    <button onclick="showSection('cart')">🛒 কার্ট পেজ</button>
 </div>
 
 <div id="home-section">
@@ -30,14 +28,18 @@
 </div>
 
 <div id="cart-section" class="cart-section" style="display:none;">
-    <h2>আপনার কার্ট</h2>
+    <h2>আপনার অর্ডার সামারি</h2>
     <div id="cart-items"></div>
-    <div id="checkout-form">
-        <h3>অর্ডার ফর্ম (Cash on Delivery)</h3>
-        <input type="text" id="name" placeholder="নাম" required><br><br>
-        <input type="text" id="address" placeholder="ঠিকানা" required><br><br>
-        <button class="btn" onclick="checkout()">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
+    <div id="price-details" style="margin-top: 15px; line-height: 1.8;">
+        <p>মোট পণ্যের দাম: <span id="sub-total">0</span> টাকা</p>
+        <p>ডেলিভারি চার্জ: <span id="delivery-fee">0</span> টাকা</p>
+        <hr>
+        <h3 style="color: var(--primary);">সর্বমোট বিল: <span id="grand-total">0</span> টাকা</h3>
     </div>
+    <h3>ডেলিভারি তথ্য</h3>
+    <input type="text" id="name" placeholder="নাম" style="width:100%; padding: 10px; margin-bottom: 10px;"><br>
+    <input type="text" id="address" placeholder="ঠিকানা" style="width:100%; padding: 10px; margin-bottom: 10px;"><br>
+    <button class="btn" style="background:#25d366; padding: 15px;" onclick="checkout()">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
 </div>
 
 <script>
@@ -52,8 +54,7 @@
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     function renderProducts() {
-        const grid = document.getElementById('product-grid');
-        grid.innerHTML = products.map(p => `
+        document.getElementById('product-grid').innerHTML = products.map(p => `
             <div class="card">
                 <h3>${p.name}</h3>
                 <p>${p.price} টাকা</p>
@@ -75,25 +76,19 @@
     }
 
     function renderCart() {
-        const container = document.getElementById('cart-items');
-        let total = cart.reduce((sum, item) => sum + item.price, 0);
-        container.innerHTML = cart.map(item => `<p>${item.name} - ${item.price} টাকা</p>`).join('');
-        container.innerHTML += `<h3>মোট: ${total + 130} টাকা (ডেলিভারি চার্জসহ)</h3>`;
+        let subTotal = cart.reduce((sum, item) => sum + item.price, 0);
+        let deliveryFee = cart.length > 0 ? (130 + (cart.length - 1) * 10) : 0;
+        document.getElementById('cart-items').innerHTML = cart.map(i => `<p>${i.name} - ${i.price} টাকা</p>`).join('');
+        document.getElementById('sub-total').innerText = subTotal;
+        document.getElementById('delivery-fee').innerText = deliveryFee;
+        document.getElementById('grand-total').innerText = subTotal + deliveryFee;
     }
 
     function checkout() {
         let name = document.getElementById('name').value;
         let address = document.getElementById('address').value;
-        let msg = `অর্ডার বিস্তারিত:%0Aনাম: ${name}%0Aঠিকানা: ${address}%0Aপণ্য: ${cart.map(i => i.name).join(', ')}`;
+        let msg = `অর্ডার কনফার্ম করুন:%0Aনাম: ${name}%0Aঠিকানা: ${address}%0Aপণ্য: ${cart.map(i => i.name).join(', ')}%0Aসর্বমোট বিল: ${document.getElementById('grand-total').innerText} টাকা`;
         window.open("https://wa.me/8801969080416?text=" + msg);
-    }
-
-    function filterProducts() {
-        let query = document.getElementById('search').value.toLowerCase();
-        let filtered = products.filter(p => p.name.toLowerCase().includes(query));
-        document.getElementById('product-grid').innerHTML = filtered.map(p => `
-            <div class="card"><h3>${p.name}</h3><p>${p.price} টাকা</p><button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button></div>
-        `).join('');
     }
 
     renderProducts();
