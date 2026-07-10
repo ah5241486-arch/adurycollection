@@ -3,26 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adury Collection</title>
+    <title>Adury Collection - অর্ডার করুন</title>
     <style>
-        body { font-family: sans-serif; background: #fdf2f8; text-align: center; margin: 0; padding: 20px; }
-        .hero { background: #db2777; color: white; padding: 30px; border-radius: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn { display: block; background: #25d366; color: white; padding: 12px; margin-top: 15px; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 10px; }
+        .header { background: #db2777; color: white; padding: 15px; text-align: center; border-radius: 10px; margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+        .card { background: white; padding: 10px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .price { color: #db2777; font-weight: bold; margin: 5px 0; }
+        .btn { background: #db2777; color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        .cart-info { background: #e8f5e9; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid #c8e6c9; }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>Adury Collection</h1>
-        <p>পাইকারি ও প্রিমিয়াম থ্রি-পিস</p>
-    </div>
-    <div class="grid">
-        <div class="card">
-            <h3>থ্রি-পিস কালেকশন</h3>
-            <p>দাম: ৫০০ টাকা</p>
-            <a href="https://wa.me/8801969080416?text=আমি এই থ্রি-পিসটি অর্ডার করতে চাই" class="btn">WhatsApp-এ অর্ডার করুন</a>
-        </div>
-    </div>
+
+<div class="header"><h2>Adury Collection</h2></div>
+
+<div class="grid" id="shop"></div>
+
+<div class="cart-info" id="cart">
+    <h3>অর্ডার সামারি</h3>
+    <p>পণ্য সংখ্যা: <span id="qty">0</span> পিস</p>
+    <p>মোট পণ্যের দাম: <span id="total-price">0</span> টাকা</p>
+    <p>ডেলিভারি চার্জ: <span id="delivery-charge">0</span> টাকা</p>
+    <hr>
+    <strong>সর্বমোট বিল: <span id="grand-total">0</span> টাকা</strong>
+</div>
+
+<script>
+    const products = [
+        { name: "কাশ্মীরি থ্রি-পিস", price: 480 },
+        { name: "জমজম থ্রি-পিস", price: 620 },
+        { name: "লেটেক থ্রি-পিস", price: 550 },
+        { name: "আরিসিকুয়েন্স", price: 650 },
+        { name: "মার্শাল", price: 950 }
+    ];
+
+    let cartCount = 0;
+    let totalPrice = 0;
+
+    const shop = document.getElementById('shop');
+    products.forEach(p => {
+        shop.innerHTML += `
+            <div class="card">
+                <div class="name">${p.name}</div>
+                <div class="price">${p.price} টাকা</div>
+                <button class="btn" onclick="addToCart(${p.price})">Add to Cart</button>
+            </div>
+        `;
+    });
+
+    function addToCart(price) {
+        cartCount++;
+        totalPrice += price;
+        
+        // ডেলিভারি চার্জ হিসাব: প্রথম পিস ১৩০, পরে প্রতি পিস ১০ টাকা
+        let deliveryCharge = (cartCount > 0) ? (130 + (cartCount - 1) * 10) : 0;
+        let grandTotal = totalPrice + deliveryCharge;
+
+        document.getElementById('qty').innerText = cartCount;
+        document.getElementById('total-price').innerText = totalPrice;
+        document.getElementById('delivery-charge').innerText = deliveryCharge;
+        document.getElementById('grand-total').innerText = grandTotal;
+    }
+</script>
 </body>
 </html>
