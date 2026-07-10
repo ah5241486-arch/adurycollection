@@ -3,30 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adury Collection - অর্ডার করুন</title>
+    <title>Adury Collection - প্রিমিয়াম শপ</title>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 10px; }
-        .header { background: #db2777; color: white; padding: 15px; text-align: center; border-radius: 10px; margin-bottom: 15px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-        .card { background: white; padding: 10px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .price { color: #db2777; font-weight: bold; margin: 5px 0; }
-        .btn { background: #db2777; color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 12px; }
-        .cart-info { background: #e8f5e9; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px solid #c8e6c9; }
+        :root { --primary: #db2777; --dark: #333; }
+        body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
+        .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+        .nav { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; }
+        .card { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; }
+        .btn { background: var(--primary); color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 5px; }
+        .cart-section { background: white; padding: 20px; margin: 20px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div class="header"><h2>Adury Collection</h2></div>
+<div class="header"><h1>Adury Collection</h1></div>
+<div class="nav">
+    <input type="text" id="search" placeholder="পণ্য খুঁজুন..." onkeyup="filterProducts()">
+    <button onclick="showSection('home')">হোম</button>
+    <button onclick="showSection('cart')">কার্ট (🛒)</button>
+</div>
 
-<div class="grid" id="shop"></div>
+<div id="home-section">
+    <div class="grid" id="product-grid"></div>
+</div>
 
-<div class="cart-info" id="cart">
-    <h3>অর্ডার সামারি</h3>
-    <p>পণ্য সংখ্যা: <span id="qty">0</span> পিস</p>
-    <p>মোট পণ্যের দাম: <span id="total-price">0</span> টাকা</p>
-    <p>ডেলিভারি চার্জ: <span id="delivery-charge">0</span> টাকা</p>
-    <hr>
-    <strong>সর্বমোট বিল: <span id="grand-total">0</span> টাকা</strong>
+<div id="cart-section" class="cart-section" style="display:none;">
+    <h2>আপনার কার্ট</h2>
+    <div id="cart-items"></div>
+    <div id="checkout-form">
+        <h3>অর্ডার ফর্ম (Cash on Delivery)</h3>
+        <input type="text" id="name" placeholder="নাম" required><br><br>
+        <input type="text" id="address" placeholder="ঠিকানা" required><br><br>
+        <button class="btn" onclick="checkout()">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
+    </div>
 </div>
 
 <script>
@@ -38,33 +49,54 @@
         { name: "মার্শাল", price: 950 }
     ];
 
-    let cartCount = 0;
-    let totalPrice = 0;
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const shop = document.getElementById('shop');
-    products.forEach(p => {
-        shop.innerHTML += `
+    function renderProducts() {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = products.map(p => `
             <div class="card">
-                <div class="name">${p.name}</div>
-                <div class="price">${p.price} টাকা</div>
-                <button class="btn" onclick="addToCart(${p.price})">Add to Cart</button>
+                <h3>${p.name}</h3>
+                <p>${p.price} টাকা</p>
+                <button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
             </div>
-        `;
-    });
-
-    function addToCart(price) {
-        cartCount++;
-        totalPrice += price;
-        
-        // ডেলিভারি চার্জ হিসাব: প্রথম পিস ১৩০, পরে প্রতি পিস ১০ টাকা
-        let deliveryCharge = (cartCount > 0) ? (130 + (cartCount - 1) * 10) : 0;
-        let grandTotal = totalPrice + deliveryCharge;
-
-        document.getElementById('qty').innerText = cartCount;
-        document.getElementById('total-price').innerText = totalPrice;
-        document.getElementById('delivery-charge').innerText = deliveryCharge;
-        document.getElementById('grand-total').innerText = grandTotal;
+        `).join('');
     }
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(name + " কার্টে যোগ হয়েছে!");
+    }
+
+    function showSection(s) {
+        document.getElementById('home-section').style.display = s == 'home' ? 'block' : 'none';
+        document.getElementById('cart-section').style.display = s == 'cart' ? 'block' : 'none';
+        if(s == 'cart') renderCart();
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cart-items');
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        container.innerHTML = cart.map(item => `<p>${item.name} - ${item.price} টাকা</p>`).join('');
+        container.innerHTML += `<h3>মোট: ${total + 130} টাকা (ডেলিভারি চার্জসহ)</h3>`;
+    }
+
+    function checkout() {
+        let name = document.getElementById('name').value;
+        let address = document.getElementById('address').value;
+        let msg = `অর্ডার বিস্তারিত:%0Aনাম: ${name}%0Aঠিকানা: ${address}%0Aপণ্য: ${cart.map(i => i.name).join(', ')}`;
+        window.open("https://wa.me/8801969080416?text=" + msg);
+    }
+
+    function filterProducts() {
+        let query = document.getElementById('search').value.toLowerCase();
+        let filtered = products.filter(p => p.name.toLowerCase().includes(query));
+        document.getElementById('product-grid').innerHTML = filtered.map(p => `
+            <div class="card"><h3>${p.name}</h3><p>${p.price} টাকা</p><button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button></div>
+        `).join('');
+    }
+
+    renderProducts();
 </script>
 </body>
 </html>
