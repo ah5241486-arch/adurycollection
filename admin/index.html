@@ -1,42 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adury Collection Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adury Collection</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        .btn { padding: 15px 25px; background: #1877f2; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+    </style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script>
-    CMS.init({
-      config: {
-        backend: {
-          name: "github",
-          repo: "ah5241486-arch/adurycollection",
-          branch: "main",
-          auth_type: "implicit" 
-        },
-        site_url: "https://adurycollection.vercel.app",
-        display_url: "https://adurycollection.vercel.app",
-        media_folder: "public/images",
-        public_folder: "/images",
-        collections: [
-          {
-            name: "products",
-            label: "Products",
-            folder: "content/products",
-            create: true,
-            slug: "{{slug}}",
-            fields: [
-              { label: "Title", name: "title", widget: "string" },
-              { label: "Price", name: "price", widget: "number" },
-              { label: "Image", name: "image", widget: "image" },
-              { label: "Description", name: "description", widget: "text" }
-            ]
-          }
-        ]
-      }
-    });
-  </script>
+    <h1>Adury Collection</h1>
+    <p>আমাদের নতুন কালেকশন দেখতে নিচে ক্লিক করুন</p>
+    <br>
+    <!-- আপনার ফেসবুক পেজের লিংক নিচে বসান -->
+    <a href="https://www.facebook.com/আপনার_পেজের_ইউজারনেম" class="btn">আমাদের নতুন কালেকশন দেখুন</a>
 </body>
 </html>
