@@ -2,87 +2,60 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
-        .product-card { background: white; padding: 15px; margin: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; overflow-y: auto; }
-        .modal-content { background: white; width: 95%; max-width: 450px; margin: 20px auto; padding: 20px; border-radius: 15px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .btn-green { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
+        .product { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        /* মডালটি ডিফল্টভাবে hide করে রাখা হয়েছে */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
+        .content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 20px; border-radius: 10px; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        button { padding: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<h2 style="text-align:center;">আমাদের পণ্যসমূহ</h2>
-<div id="product-list"></div>
+    <h2>ফ্ল্যাশ সেল</h2>
+    <div id="products"></div>
 
-<div id="cart-modal" class="modal">
-    <div class="modal-content">
-        <h3>🛒 আপনার অর্ডার লিস্ট</h3>
-        <div id="cart-items"></div>
-        <input type="text" id="name" placeholder="আপনার নাম *">
-        <input type="text" id="phone" placeholder="মোবাইল নম্বর *">
-        <input type="text" id="address" placeholder="সম্পূর্ণ ঠিকানা *">
-        
-        <div id="bill-details" style="background:#f9f9f9; padding:10px; border-radius:8px; margin:10px 0;"></div>
-        
-        <button class="btn-green" onclick="placeOrder()">অর্ডার কনফার্ম করুন</button>
-        <button onclick="document.getElementById('cart-modal').style.display='none'" style="width:100%; margin-top:10px; border:none; background:none;">বন্ধ করুন</button>
+    <div id="order-modal" class="modal">
+        <div class="content">
+            <h3>অর্ডার কনফার্ম করুন</h3>
+            <input type="text" id="name" placeholder="নাম">
+            <input type="text" id="phone" placeholder="ফোন">
+            <input type="text" id="addr" placeholder="ঠিকানা">
+            <button onclick="submitOrder()" style="background:green; color:white; width:100%;">অর্ডার নিশ্চিত করুন</button>
+            <button onclick="closeModal()" style="width:100%; margin-top:5px;">বন্ধ করুন</button>
+        </div>
     </div>
-</div>
 
-<script>
-    let cart = [];
-    const products = [
-        {id: 1, name: "কাশ্মীরি থ্রি-পিস", price: 490},
-        {id: 2, name: "এয়ারটেল এক্সক্লুসিভ", price: 550}
-    ];
+    <script>
+        const products = [
+            {id: 1, name: "কাশ্মীরি", price: 490},
+            {id: 2, name: "এয়ারটেল", price: 550}
+        ];
 
-    function renderProducts() {
-        document.getElementById('product-list').innerHTML = products.map(p => `
-            <div class="product-card">
-                <h4>${p.name} - ৳${p.price}</h4>
-                <button onclick="addToCart(${p.id})">কার্টে যোগ করুন</button>
-            </div>
-        `).join('');
-    }
+        function render() {
+            document.getElementById('products').innerHTML = products.map(p => `
+                <div class="product">
+                    <p>${p.name} - ৳${p.price}</p>
+                    <button onclick="openModal()">Order Now</button>
+                </div>
+            `).join('');
+        }
 
-    function addToCart(id) {
-        let p = products.find(x => x.id === id);
-        let exists = cart.find(x => x.id === id);
-        if(exists) exists.qty++;
-        else cart.push({...p, qty: 1});
-        openModal();
-    }
-
-    function openModal() {
-        document.getElementById('cart-modal').style.display = 'block';
-        let itemsHtml = cart.map(item => `
-            <div class="cart-item">
-                <span>${item.name}</span>
-                <span>${item.qty} x ৳${item.price * item.qty}</span>
-            </div>
-        `).join('');
-        document.getElementById('cart-items').innerHTML = itemsHtml;
+        // মডাল খোলার ফাংশন
+        function openModal() { document.getElementById('order-modal').style.display = 'block'; }
         
-        let totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-        let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        let delCharge = 130 + (totalQty > 2 ? (totalQty - 2) * 10 : 0);
-        
-        document.getElementById('bill-details').innerHTML = `
-            মোট পিস: ${totalQty}<br>সাবটোটাল: ৳${subtotal}<br>ডেলিভারি চার্জ: ৳${delCharge}<br><strong>সর্বমোট: ৳${subtotal + delCharge}</strong>
-        `;
-    }
+        // মডাল বন্ধ করার ফাংশন
+        function closeModal() { document.getElementById('order-modal').style.display = 'none'; }
 
-    function placeOrder() {
-        let msg = `অর্ডার লিস্ট:%0A` + cart.map(i => `${i.name} (${i.qty})`).join('%0A');
-        window.location.href = `https://wa.me/8801969080416?text=${msg}`;
-    }
+        function submitOrder() {
+            alert("অর্ডার সফল হয়েছে!");
+            closeModal();
+        }
 
-    renderProducts();
-</script>
+        render();
+    </script>
 </body>
 </html>
