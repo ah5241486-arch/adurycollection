@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adury Collection - প্রিমিয়াম শপ</title>
     <style>
-        :root { --primary: #e91e63; --secondary: #25d366; }
-        body { font-family: 'Arial', sans-serif; background: #fdf2f8; margin: 0; padding: 0; }
-        .header { background: var(--primary); color: white; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
-        .card { background: white; padding: 12px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 130px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-        .btn-pulse { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; animation: pulse 2s infinite; }
+        :root { --primary: #db2777; --secondary: #25d366; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #fdf2f8; margin: 0; }
+        .header { background: var(--primary); color: white; padding: 25px; text-align: center; font-size: 28px; }
+        
+        /* গ্রিড লেআউট: মোবাইলে ২ কলাম, কম্পিউটারে ৪ কলাম */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+        .card { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
+        
+        .pulse-btn { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
         /* প্যানেল স্টাইল */
-        #orderPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; }
-        .panel-content { background: white; width: 90%; margin: 50px auto; padding: 20px; border-radius: 15px; }
-        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        #orderPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+        .panel-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 20px; position: relative; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -25,18 +29,21 @@
 
 <div class="grid" id="shop"></div>
 
+<!-- অর্ডার প্যানেল -->
 <div id="orderPanel">
     <div class="panel-content">
-        <h3>অর্ডার কনফার্ম করুন</h3>
-        <input type="text" id="name" placeholder="আপনার নাম">
+        <h2 style="margin-top:0">অর্ডার কনফার্ম করুন</h2>
+        <input type="text" id="name" placeholder="আপনার পুরো নাম">
         <input type="text" id="phone" placeholder="ফোন নাম্বার">
-        <input type="text" id="addr" placeholder="আপনার ঠিকানা">
-        <p>পণ্য: <span id="p-name"></span></p>
-        <p>পরিমাণ: <span id="p-qty"></span> টি</p>
-        <p>ডেলিভারি চার্জ: ১৫০ টাকা</p>
-        <p>সর্বমোট বিল: <span id="p-total"></span> টাকা</p>
-        <button style="background:var(--secondary); color:white; width:100%; padding:15px; border:none; border-radius:5px;" onclick="finishOrder()">WhatsApp-এ অর্ডার পাঠান</button>
-        <button style="background:#ccc; width:100%; padding:10px; border:none; margin-top:10px;" onclick="closePanel()">বাতিল করুন</button>
+        <input type="text" id="addr" placeholder="পুরো ঠিকানা">
+        <div style="background: #fdf2f8; padding: 10px; border-radius: 8px; margin: 10px 0;">
+            <p>পণ্য: <span id="p-name"></span></p>
+            <p>পরিমাণ: <span id="p-qty"></span> টি</p>
+            <p>ডেলিভারি চার্জ: ১৫০ টাকা</p>
+            <p><strong>সর্বমোট বিল: <span id="p-total"></span> টাকা</strong></p>
+        </div>
+        <button style="background:var(--secondary); color:white; width:100%; padding:15px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="finishOrder()">WhatsApp-এ অর্ডার পাঠান</button>
+        <button style="background:#ddd; width:100%; padding:10px; border:none; border-radius:8px; margin-top:10px; cursor:pointer;" onclick="closePanel()">বাতিল করুন</button>
     </div>
 </div>
 
@@ -54,19 +61,21 @@
         document.getElementById('shop').innerHTML = cart.map((p, i) => `
             <div class="card">
                 <img src="${p.img}" alt="${p.name}">
-                <div style="font-weight:bold">${p.name}</div>
-                <div style="color:var(--primary)">${p.price} টাকা</div>
+                <div style="font-weight:bold; font-size:18px">${p.name}</div>
+                <div style="color:var(--primary); font-size:16px; margin:5px 0">${p.price} টাকা</div>
                 <div style="margin:10px 0;">
-                    <button onclick="changeQty(${i}, -1)">-</button> <span>${p.qty}</span> <button onclick="changeQty(${i}, 1)">+</button>
+                    <button onclick="changeQty(${i}, -1)" style="padding:5px 15px">-</button> 
+                    <span style="font-weight:bold; margin:0 10px">${p.qty}</span> 
+                    <button onclick="changeQty(${i}, 1)" style="padding:5px 15px">+</button>
                 </div>
-                <button class="btn-pulse" onclick="openPanel(${i})">অর্ডার নাও</button>
+                <button class="pulse-btn" onclick="openPanel(${i})">অর্ডার নাও</button>
             </div>
         `).join('');
     }
 
     function changeQty(i, v) { cart[i].qty = Math.max(0, cart[i].qty + v); render(); }
     function openPanel(i) {
-        if(cart[i].qty < 1) { alert("প্রথমে পণ্যের পরিমাণ সিলেক্ট করুন!"); return; }
+        if(cart[i].qty < 1) { alert("দয়া করে পণ্যের পরিমাণ সিলেক্ট করুন!"); return; }
         document.getElementById('p-name').innerText = cart[i].name;
         document.getElementById('p-qty').innerText = cart[i].qty;
         document.getElementById('p-total').innerText = (cart[i].qty * cart[i].price) + 150;
@@ -76,7 +85,7 @@
     function closePanel() { document.getElementById('orderPanel').style.display = 'none'; }
     function finishOrder() {
         let p = cart[window.activeIdx];
-        let msg = `নাম: ${document.getElementById('name').value}%0Aফোন: ${document.getElementById('phone').value}%0Aঠিকানা: ${document.getElementById('addr').value}%0Aপণ্য: ${p.name}%0Aপরিমাণ: ${p.qty} টি%0Aমোট বিল: ${(p.qty * p.price) + 150} টাকা`;
+        let msg = `অর্ডার কনফার্ম করুন:%0Aনাম: ${document.getElementById('name').value}%0Aফোন: ${document.getElementById('phone').value}%0Aঠিকানা: ${document.getElementById('addr').value}%0Aপণ্য: ${p.name}%0Aপরিমাণ: ${p.qty} টি%0Aমোট বিল: ${(p.qty * p.price) + 150} টাকা`;
         window.open("https://wa.me/8801969080416?text=" + msg, "_blank");
     }
     render();
