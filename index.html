@@ -18,42 +18,116 @@
                     <li><a href="#">যোগাযোগ</a></li>
                 </ul>
             </nav>
+            <div class="header-actions">
+                <input type="text" placeholder="সার্চ...">
+                <a href="#">🛒</a>
+            </div>
         </div>
     </header>
 
-    <main id="main-content">
-        <section class="hero">
-            <div class="container">
-                <h1>আপনার স্টাইলের নতুন ঠিকানা</h1>
-                <p>সেরা কালেকশন এবং প্রিমিয়াম কোয়ালিটি পণ্য এখন হাতের নাগালে।</p>
-                <a href="#flash-sale" class="btn-shop">কেনাকাটা শুরু করুন</a>
-            </div>
-        </section>
-
-        <section class="flash-sale" id="flash-sale">
-            <div class="container">
-                <h2>ফ্ল্যাশ সেল</h2>
-                <div class="product-grid" id="flash-sale-products">
-                    </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="checkout-modal" style="display:none; position:fixed; top:15%; left:5%; width:90%; background:white; padding:20px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.3); z-index:1000; text-align:center;">
-        <h3>আপনার তথ্য দিন</h3>
-        <input type="text" id="cust-name" placeholder="আপনার নাম" style="width:100%; padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
-        <input type="text" id="cust-address" placeholder="আপনার ঠিকানা" style="width:100%; padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
-        <input type="text" id="cust-phone" placeholder="ফোন নম্বর" style="width:100%; padding:10px; margin:5px 0; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
-        <button onclick="confirmOrder()" class="pulsate-btn" style="width:100%; background:green; color:white; border:none; padding:12px; border-radius:5px; margin-top:10px; font-weight:bold; cursor:pointer;">অর্ডার নিশ্চিত করুন</button>
-        <button onclick="document.getElementById('checkout-modal').style.display='none'" style="width:100%; background:#ccc; border:none; padding:10px; border-radius:5px; margin-top:5px; cursor:pointer;">বন্ধ করুন</button>
-    </div>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; ২০২৬ Adury Collection - সর্বস্বত্ব সংরক্ষিত।</p>
-        </div>
-    </footer>
+    <main id="main-content"></main>
 
     <script src="js/main.js"></script>
 </body>
-</html>
+</html><section class="hero">
+    <div class="container">
+        <h1>আপনার স্টাইলের নতুন ঠিকানা</h1>
+        <p>সেরা কালেকশন এবং প্রিমিয়াম কোয়ালিটি পণ্য এখন হাতের নাগালে।</p>
+        <a href="#shop" class="btn-shop">কেনাকাটা শুরু করুন</a>
+    </div>
+</section>
+
+<section class="categories">
+    <div class="container">
+        <h2>ক্যাটাগরি</h2>
+        <div class="cat-grid">
+            <div class="cat-card">কাশ্মীরি</div>
+            <div class="cat-card">জমজম</div>
+            <div class="cat-card">নতুন কালেকশন</div>
+        </div>
+    </div>
+</section>
+<section class="flash-sale">
+    <div class="container">
+        <h2>ফ্ল্যাশ সেল</h2>
+        <div class="product-grid" id="flash-sale-products">
+            </div>
+    </div>
+</section>
+
+<section class="best-selling">
+    <div class="container">
+        <h2>বেস্ট সেলিং পণ্য</h2>
+        <div class="product-grid" id="best-selling-products">
+            </div>
+    </div>
+</section>
+
+<section class="new-arrivals">
+    <div class="container">
+        <h2>নতুন কালেকশন</h2>
+        <div class="product-grid" id="new-arrivals-products">
+            </div>
+    </div>
+</section>
+
+<section class="featured">
+    <div class="container">
+        <h2>ফিচারড পণ্য</h2>
+        <div class="product-grid" id="featured-products">
+            </div>
+    </div>
+</section>
+<section class="reviews">
+    <div class="container">
+        <h2>গ্রাহকদের মতামত</h2>
+        <div class="review-grid">
+            <div class="review-card">
+                <p>"অসাধারণ পণ্য! কোয়ালিটি অনেক ভালো।"</p>
+                <h4>- রহিম</h4>
+            </div>
+            <div class="review-card">
+                <p>"সময়মতো ডেলিভারি পেয়েছি, ধন্যবাদ।"</p>
+                <h4>- করিম</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter">
+    <div class="container">
+        <h2>অফার পেতে সাবস্ক্রাইব করুন</h2>
+        <form>
+            <input type="email" placeholder="আপনার ইমেইল ঠিকানা দিন">
+            <button type="submit">সাবস্ক্রাইব</button>
+        </form>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Adury Collection</h3>
+                <p>আমাদের সাথে থাকার জন্য ধন্যবাদ। মানসম্মত পণ্যই আমাদের প্রতিশ্রুতি।</p>
+            </div>
+            <div class="footer-col">
+                <h3>জরুরি লিঙ্ক</h3>
+                <ul>
+                    <li><a href="#">আমাদের সম্পর্কে</a></li>
+                    <li><a href="#">প্রাইভেসি পলিসি</a></li>
+                    <li><a href="#">নিয়ম ও শর্তাবলী</a></li>
+                    <li><a href="#">রিটার্ন ও রিফান্ড</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>যোগাযোগ</h3>
+                <p>ফোন: ০১৭XXXXXXXX</p>
+                <p>ইমেইল: info@adury.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ২০২৬ Adury Collection - সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </div>
+</footer>
+
