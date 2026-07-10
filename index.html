@@ -6,53 +6,54 @@
     <title>Adury Collection - প্রিমিয়াম শপ</title>
     <style>
         :root { --primary: #db2777; --secondary: #25d366; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #fdf2f8; margin: 0; }
-        .header { background: var(--primary); color: white; padding: 25px; text-align: center; font-size: 28px; }
-        
-        /* গ্রিড লেআউট: মোবাইলে ২ কলাম, কম্পিউটারে ৪ কলাম */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-        
-        .pulse-btn { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        
-        /* প্যানেল স্টাইল */
-        #orderPanel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
-        .panel-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 20px; position: relative; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fdf2f8; margin: 0; }
+        .header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+        .banner { background: white; padding: 15px; margin: 10px; border-radius: 10px; text-align: center; border: 2px dashed var(--primary); }
+        .search-box { width: 90%; padding: 10px; margin: 10px; border-radius: 5px; border: 1px solid #ddd; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+        .card { background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .card img { width: 100%; height: 120px; border-radius: 8px; }
+        .pulse-btn { background: var(--primary); color: white; padding: 10px; width: 100%; border: none; border-radius: 5px; cursor: pointer; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        .footer { background: #333; color: white; padding: 20px; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="header">Adury Collection</div>
+<div class="header"><h1>Adury Collection</h1></div>
+
+<div class="banner">
+    <h3>🔥 নতুন কালেকশন ২০২৬</h3>
+    <p>৫০০০ টাকার বেশি অর্ডারে ফ্রি ডেলিভারি!</p>
+</div>
+
+<input type="text" class="search-box" placeholder="পণ্যের নাম লিখে সার্চ করুন...">
 
 <div class="grid" id="shop"></div>
 
+<div class="footer">
+    <p>পেমেন্ট মেথড: বিকাশ, নগদ, রকেট</p>
+    <p>© ২০২৬ Adury Collection. সর্বস্বত্ব সংরক্ষিত</p>
+</div>
+
 <!-- অর্ডার প্যানেল -->
-<div id="orderPanel">
-    <div class="panel-content">
-        <h2 style="margin-top:0">অর্ডার কনফার্ম করুন</h2>
-        <input type="text" id="name" placeholder="আপনার পুরো নাম">
-        <input type="text" id="phone" placeholder="ফোন নাম্বার">
-        <input type="text" id="addr" placeholder="পুরো ঠিকানা">
-        <div style="background: #fdf2f8; padding: 10px; border-radius: 8px; margin: 10px 0;">
-            <p>পণ্য: <span id="p-name"></span></p>
-            <p>পরিমাণ: <span id="p-qty"></span> টি</p>
-            <p>ডেলিভারি চার্জ: ১৫০ টাকা</p>
-            <p><strong>সর্বমোট বিল: <span id="p-total"></span> টাকা</strong></p>
-        </div>
-        <button style="background:var(--secondary); color:white; width:100%; padding:15px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;" onclick="finishOrder()">WhatsApp-এ অর্ডার পাঠান</button>
-        <button style="background:#ddd; width:100%; padding:10px; border:none; border-radius:8px; margin-top:10px; cursor:pointer;" onclick="closePanel()">বাতিল করুন</button>
+<div id="orderPanel" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000;">
+    <div style="background:white; width:90%; max-width:400px; margin:50px auto; padding:20px; border-radius:15px;">
+        <h3>অর্ডার কনফার্ম করুন</h3>
+        <input type="text" id="name" placeholder="নাম" style="width:100%; padding:10px; margin:5px 0;">
+        <input type="text" id="phone" placeholder="ফোন" style="width:100%; padding:10px; margin:5px 0;">
+        <input type="text" id="addr" placeholder="ঠিকানা" style="width:100%; padding:10px; margin:5px 0;">
+        <p>পণ্য: <span id="p-name"></span> | পিস: <span id="p-qty"></span></p>
+        <p>সর্বমোট: <span id="p-total"></span> টাকা</p>
+        <button style="background:var(--secondary); color:white; width:100%; padding:15px; border:none;" onclick="finishOrder()">WhatsApp-এ অর্ডার পাঠান</button>
+        <button style="width:100%; padding:10px; margin-top:5px;" onclick="document.getElementById('orderPanel').style.display='none'">বাতিল</button>
     </div>
 </div>
 
 <script>
     const products = [
         { name: "কাশ্মীরি থ্রি-পিস", price: 480, img: "https://i.imgur.com/x0Q47z4.jpg" },
-        { name: "জমজম থ্রি-পিস", price: 620, img: "https://i.imgur.com/5Jb2b3G.jpg" },
-        { name: "লেটেক থ্রি-পিস", price: 550, img: "https://i.imgur.com/8QzP8g2.jpg" },
-        { name: "মার্শাল থ্রি-পিস", price: 950, img: "https://i.imgur.com/tK4w4W2.jpg" }
+        { name: "জমজম থ্রি-পিস", price: 620, img: "https://i.imgur.com/5Jb2b3G.jpg" }
     ];
 
     let cart = products.map(p => ({...p, qty: 0}));
@@ -60,32 +61,27 @@
     function render() {
         document.getElementById('shop').innerHTML = cart.map((p, i) => `
             <div class="card">
-                <img src="${p.img}" alt="${p.name}">
-                <div style="font-weight:bold; font-size:18px">${p.name}</div>
-                <div style="color:var(--primary); font-size:16px; margin:5px 0">${p.price} টাকা</div>
-                <div style="margin:10px 0;">
-                    <button onclick="changeQty(${i}, -1)" style="padding:5px 15px">-</button> 
-                    <span style="font-weight:bold; margin:0 10px">${p.qty}</span> 
-                    <button onclick="changeQty(${i}, 1)" style="padding:5px 15px">+</button>
-                </div>
-                <button class="pulse-btn" onclick="openPanel(${i})">অর্ডার নাও</button>
+                <img src="${p.img}">
+                <b>${p.name}</b>
+                <p>${p.price} টাকা</p>
+                <button onclick="changeQty(${i}, -1)">-</button> <span>${p.qty}</span> <button onclick="changeQty(${i}, 1)">+</button>
+                <button class="pulse-btn" onclick="openPanel(${i})" style="margin-top:10px">অর্ডার নাও</button>
             </div>
         `).join('');
     }
 
     function changeQty(i, v) { cart[i].qty = Math.max(0, cart[i].qty + v); render(); }
     function openPanel(i) {
-        if(cart[i].qty < 1) { alert("দয়া করে পণ্যের পরিমাণ সিলেক্ট করুন!"); return; }
+        if(cart[i].qty < 1) { alert("পরিমাণ সিলেক্ট করুন!"); return; }
         document.getElementById('p-name').innerText = cart[i].name;
         document.getElementById('p-qty').innerText = cart[i].qty;
         document.getElementById('p-total').innerText = (cart[i].qty * cart[i].price) + 150;
         document.getElementById('orderPanel').style.display = 'block';
         window.activeIdx = i;
     }
-    function closePanel() { document.getElementById('orderPanel').style.display = 'none'; }
     function finishOrder() {
         let p = cart[window.activeIdx];
-        let msg = `অর্ডার কনফার্ম করুন:%0Aনাম: ${document.getElementById('name').value}%0Aফোন: ${document.getElementById('phone').value}%0Aঠিকানা: ${document.getElementById('addr').value}%0Aপণ্য: ${p.name}%0Aপরিমাণ: ${p.qty} টি%0Aমোট বিল: ${(p.qty * p.price) + 150} টাকা`;
+        let msg = `অর্ডার কনফার্ম করুন:%0Aনাম: ${document.getElementById('name').value}%0Aফোন: ${document.getElementById('phone').value}%0Aপণ্য: ${p.name} (${p.qty} পিস)%0Aমোট: ${(p.qty * p.price) + 150} টাকা`;
         window.open("https://wa.me/8801969080416?text=" + msg, "_blank");
     }
     render();
