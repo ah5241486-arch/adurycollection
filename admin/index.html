@@ -8,14 +8,16 @@
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    // সরাসরি কনফিগ অবজেক্ট তৈরি করছি যাতে নেটলিফাইয়ের কোনো প্রভাব না থাকে
     CMS.init({
       config: {
         backend: {
           name: "github",
           repo: "ah5241486-arch/adurycollection",
-          branch: "main"
+          branch: "main",
+          auth_type: "implicit" 
         },
+        site_url: "https://adurycollection.vercel.app",
+        display_url: "https://adurycollection.vercel.app",
         media_folder: "public/images",
         public_folder: "/images",
         collections: [
