@@ -1,12 +1,11 @@
-/* প্রোডাক্টগুলো গ্রিডে সাজানোর জন্য */
+/* গ্রিড লেআউট */
 #flash-sale-products {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* ২ কলাম */
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
     padding: 15px;
 }
 
-/* প্রতিটি কার্ডের ডিজাইন ঠিক করা */
 .product-card {
     background: #fff;
     border: 1px solid #eee;
@@ -19,10 +18,9 @@
 .product-card img {
     width: 100%;
     border-radius: 8px;
-    display: block; /* ছবি যেন ঠিকমতো বসে */
 }
 
-/* বাটনের স্টাইল */
+/* বাটন স্টাইল */
 .pulsate-btn {
     animation: pulse 1.5s infinite;
     cursor: pointer;
@@ -32,6 +30,7 @@
     border-radius: 5px;
     font-weight: bold;
     width: 100%;
+    background: #e91e63;
 }
 
 @keyframes pulse {
