@@ -493,12 +493,24 @@
             let whatsappURL = `https://wa.me/8801969080416?text=${message}`;
             window.open(whatsappURL, '_blank');
             
-            // কার্ট সম্পূর্ণ ফ্লাশ বা রিসেট করা
-            cart = [];
-            updateCartCount();
-            displayProducts(PRODUCTS);
-            closeCart();
-        }
+        }// আপনার কোডের PRODUCTS সেকশনটি এভাবে আপডেট করুন:
+const PRODUCTS = [
+    { 
+        id: 'p1', 
+        name: 'কাশ্মীরি থ্রি-পিস', 
+        price: 480, 
+        category: 'কাশ্মীরি', 
+        image: 'https://raw.githubusercontent.com/আপনার-ইউজারনেম/adurycollection/main/images/p1.jpg' 
+    },
+    { 
+        id: 'p2', 
+        name: 'নতুন ডিজাইন', 
+        price: 550, 
+        category: 'প্যাচেল', 
+        image: 'https://raw.githubusercontent.com/আপনার-ইউজারনেম/adurycollection/main/images/p2.jpg' 
+    }
+];
+
     </script>
 </body>
 </html>
