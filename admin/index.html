@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel</title>
-  <link href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" rel="stylesheet" />
+  <title>Adury Collection Admin</title>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
+    // সরাসরি কনফিগ অবজেক্ট তৈরি করছি যাতে নেটলিফাইয়ের কোনো প্রভাব না থাকে
     CMS.init({
       config: {
         backend: {
           name: "github",
           repo: "ah5241486-arch/adurycollection",
-          branch: "main",
-          auth_type: "implicit" 
+          branch: "main"
         },
         media_folder: "public/images",
         public_folder: "/images",
